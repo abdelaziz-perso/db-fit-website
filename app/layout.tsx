@@ -22,13 +22,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: defaultMessages.meta.title,
   description: defaultMessages.meta.description,
-  icons: {
-    icon: [
-      { url: "/logo-db-fit.jpg", type: "image/jpeg", sizes: "any" },
-    ],
-    apple: [{ url: "/logo-db-fit.jpg", type: "image/jpeg", sizes: "180x180" }],
-    shortcut: "/logo-db-fit.jpg",
-  },
 };
 
 export default function RootLayout({
