@@ -27,6 +27,9 @@ const tailwindCssEntry = path.join(
 );
 
 const nextConfig: NextConfig = {
+  /** Export statique pour déploiement FTP (Hostinger) — voir `.github/workflows/ci-cd.yml`. */
+  output: "export",
+  trailingSlash: true,
   allowedDevOrigins: [...privateLanDevOrigins],
   /** Masque l’icône / indicateur Next.js en bas à gauche en mode dev. */
   devIndicators: false,
@@ -40,16 +43,8 @@ const nextConfig: NextConfig = {
       tailwindcss: tailwindCssEntry,
     },
   },
-  async redirects() {
-    return [
-      {
-        source: "/favicon.ico",
-        destination: "/logo-db-fit.jpg",
-        permanent: false,
-      },
-    ];
-  },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

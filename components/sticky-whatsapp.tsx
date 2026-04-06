@@ -13,7 +13,7 @@ export function StickyWhatsapp({ href, label }: Props) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 left-4 z-40 flex h-14 w-14 min-h-[3.5rem] min-w-[3.5rem] touch-manipulation items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-zinc-900/30 ring-1 ring-white/20 transition-all duration-200 ease-out hover:scale-110 hover:shadow-xl hover:shadow-brand/35 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-safe:animate-fab-in motion-reduce:animate-none dark:shadow-black/50 sm:bottom-5 sm:left-5 md:bottom-8 md:left-8 md:h-16 md:w-16"
+      className="fixed bottom-4 left-4 z-40 flex h-14 w-14 min-h-[3.5rem] min-w-[3.5rem] touch-manipulation items-center justify-center rounded-full bg-whatsapp text-whatsapp-on shadow-lg shadow-zinc-900/30 ring-1 ring-white/25 transition-all duration-200 ease-out hover:scale-110 hover:bg-whatsapp-hover hover:shadow-xl hover:shadow-whatsapp/40 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-whatsapp motion-safe:animate-fab-in motion-reduce:animate-none dark:shadow-black/50 sm:bottom-5 sm:left-5 md:bottom-8 md:left-8 md:h-16 md:w-16"
       aria-label={label}
     >
       <svg

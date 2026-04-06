@@ -22,7 +22,7 @@ export function FinalCtaSection({ finalCta, waHref, telHref }: Props) {
           >
             {finalCta.title}
           </h2>
-          <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-[#f97316]">
+          <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-brand">
             {finalCta.urgency}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">

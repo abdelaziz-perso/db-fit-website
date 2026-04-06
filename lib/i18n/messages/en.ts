@@ -293,9 +293,14 @@ export const en: Messages = {
     formTitle: "Get a callback",
     formName: "First name",
     formPhone: "Phone",
-    formSubmit: "Send via WhatsApp",
+    formSubmit: "Send",
     formWaPrefix: "Hi DB FIT, please call me back:",
     formMessage: "Message (optional)",
+    formSending: "Sending…",
+    formSuccess: "Message sent. Opening WhatsApp…",
+    formError: "Could not send. Please try again or call us.",
+    formWaPopupBlocked:
+      "Your message was emailed, but WhatsApp was blocked by the browser. Allow pop-ups for this site.",
   },
   footer: {
     line: "DB FIT — gym in Ansari, Dar Bouazza.",

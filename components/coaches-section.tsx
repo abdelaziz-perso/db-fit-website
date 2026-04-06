@@ -21,7 +21,7 @@ function CoachSocialIcon({
 }) {
   const chrome =
     variant === "whatsapp"
-      ? "border-zinc-300 text-brand hover:border-brand hover:text-brand-fg dark:border-white/20 dark:hover:border-brand"
+      ? "border-zinc-300 text-whatsapp hover:border-whatsapp hover:bg-whatsapp/10 hover:text-whatsapp-hover dark:border-white/20 dark:hover:border-whatsapp dark:hover:bg-whatsapp/15"
       : "border-zinc-300 text-zinc-700 hover:border-brand hover:text-brand-fg dark:border-white/20 dark:text-zinc-300 dark:hover:text-brand";
 
   return (
@@ -29,7 +29,7 @@ function CoachSocialIcon({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${chrome}`}
+      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${variant === "whatsapp" ? "focus-visible:outline-whatsapp" : "focus-visible:outline-brand"} ${chrome}`}
       aria-label={label}
     >
       {children}

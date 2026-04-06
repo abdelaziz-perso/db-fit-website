@@ -3,6 +3,8 @@ import { SILO_SLUGS } from "@/lib/i18n/silo-routes";
 import { siteConfig } from "@/lib/site/config";
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 const SILO_PATHS = SILO_SLUGS.map((s) => `/${s}` as const);
 
 export default function sitemap(): MetadataRoute.Sitemap {

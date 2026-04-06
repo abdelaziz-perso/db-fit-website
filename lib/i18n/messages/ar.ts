@@ -282,9 +282,14 @@ export const ar: Messages = {
     formTitle: "طلب اتصال",
     formName: "الاسم",
     formPhone: "الهاتف",
-    formSubmit: "إرسال عبر واتساب",
+    formSubmit: "إرسال",
     formWaPrefix: "مرحباً DB FIT، يرجى الاتصال بي:",
     formMessage: "رسالة (اختياري)",
+    formSending: "جاري الإرسال…",
+    formSuccess: "تم الإرسال. جاري فتح واتساب…",
+    formError: "فشل الإرسال. أعد المحاولة أو اتصل بنا.",
+    formWaPopupBlocked:
+      "تم إرسال الرسالة بالبريد، لكن المتصفح منع فتح واتساب. اسمح بالنوافذ المنبثقة لهذا الموقع.",
   },
   footer: {
     line: "DB FIT — صالة رياضية في أنصاري، دار بوعزة.",

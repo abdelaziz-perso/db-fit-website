@@ -16,12 +16,16 @@
 :root {
   --background: #fafafa;
   --foreground: #18181b;
-  /* Logo primary — orange (single source; mirrors @theme --color-brand*) */
-  --brand: #f97316;
-  --brand-hover: #ea580c;
-  --brand-fg: #c2410c;
-  --brand-muted: #9a3412;
-  --brand-deep: #7c2d12;
+  /* Primary brand — amber (#ffb224); !important keeps accent from being overridden */
+  --brand: #ffb224 !important;
+  --brand-hover: #e69d1a !important;
+  --brand-fg: #a56406 !important;
+  --brand-muted: #8b5209 !important;
+  --brand-deep: #5c3706 !important;
+  /* WhatsApp brand (icons / floating button) */
+  --whatsapp: #25d366;
+  --whatsapp-hover: #20bd5a;
+  --whatsapp-on: #ffffff;
 }
 
 .dark {
@@ -35,12 +39,14 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --animate-fab-in: fab-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-  /* Accent palette (ex-green → logo orange) */
-  --color-brand: #f97316;
-  --color-brand-hover: #ea580c;
-  --color-brand-fg: #c2410c;
-  --color-brand-muted: #9a3412;
-  --color-brand-deep: #7c2d12;
+  --color-brand: #ffb224 !important;
+  --color-brand-hover: #e69d1a !important;
+  --color-brand-fg: #a56406 !important;
+  --color-brand-muted: #8b5209 !important;
+  --color-brand-deep: #5c3706 !important;
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-hover: var(--whatsapp-hover);
+  --color-whatsapp-on: var(--whatsapp-on);
 }
 
 html {

@@ -86,6 +86,10 @@ export function ContactSection({ contact, waDefaultMessage }: Props) {
               formMessage={contact.formMessage}
               formSubmit={contact.formSubmit}
               formWaPrefix={contact.formWaPrefix}
+              formSending={contact.formSending}
+              formSuccess={contact.formSuccess}
+              formError={contact.formError}
+              formWaPopupBlocked={contact.formWaPopupBlocked}
             />
           </Reveal>
         </div>

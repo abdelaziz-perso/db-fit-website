@@ -294,9 +294,14 @@ export const fr: Messages = {
     formTitle: "Être rappelé",
     formName: "Prénom",
     formPhone: "Téléphone",
-    formSubmit: "Envoyer sur WhatsApp",
+    formSubmit: "Envoyer",
     formWaPrefix: "Bonjour DB FIT, merci de me rappeler :",
     formMessage: "Message (optionnel)",
+    formSending: "Envoi en cours…",
+    formSuccess: "Message envoyé. Ouverture de WhatsApp…",
+    formError: "L’envoi a échoué. Réessayez ou appelez-nous.",
+    formWaPopupBlocked:
+      "Le message a été envoyé par email, mais l’ouverture de WhatsApp a été bloquée. Autorisez les pop-ups pour ce site.",
   },
   footer: {
     line: "DB FIT — salle de sport à Ansari, Dar Bouazza.",

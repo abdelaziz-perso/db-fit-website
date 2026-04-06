@@ -195,6 +195,10 @@ export type Messages = {
     formSubmit: string;
     formWaPrefix: string;
     formMessage: string;
+    formSending: string;
+    formSuccess: string;
+    formError: string;
+    formWaPopupBlocked: string;
   };
   footer: {
     line: string;

@@ -26,7 +26,7 @@ export function PricingSection({ pricing, waHref }: Props) {
           >
             {pricing.title}
           </h2>
-          <p className="mt-4 max-w-2xl text-sm font-medium text-[#f97316]">
+          <p className="mt-4 max-w-2xl text-sm font-medium text-brand">
             {pricing.promo}
           </p>
         </Reveal>
