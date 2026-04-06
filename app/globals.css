@@ -1,8 +1,32 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #18181b;
+  /* Logo primary — orange (single source; mirrors @theme --color-brand*) */
+  --brand: #f97316;
+  --brand-hover: #ea580c;
+  --brand-fg: #c2410c;
+  --brand-muted: #9a3412;
+  --brand-deep: #7c2d12;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
 }
 
 @theme inline {
@@ -10,17 +34,32 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --animate-fab-in: fab-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Accent palette (ex-green → logo orange) */
+  --color-brand: #f97316;
+  --color-brand-hover: #ea580c;
+  --color-brand-fg: #c2410c;
+  --color-brand-muted: #9a3412;
+  --color-brand-deep: #7c2d12;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  overflow-x: clip;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: clip;
+  text-size-adjust: 100%;
+}
+
+/* Vidéos pleine largeur sans débordement */
+video {
+  max-width: 100%;
+}
+
+.font-arabic {
+  font-family: "Segoe UI", "Geeza Pro", Tahoma, Arial, sans-serif;
 }
