@@ -21,10 +21,59 @@ const geistMono = Geist_Mono({
 
 const defaultMessages = getMessages(defaultLocale);
 
+const base = new URL(siteConfig.siteUrl);
+
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.siteUrl),
+  metadataBase: base,
   title: defaultMessages.meta.title,
   description: defaultMessages.meta.description,
+  applicationName: siteConfig.brand,
+  referrer: "origin-when-cross-origin",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  ...(siteConfig.googleSiteVerification
+    ? {
+        verification: {
+          google: siteConfig.googleSiteVerification,
+        },
+      }
+    : {}),
+  openGraph: {
+    type: "website",
+    locale: "fr_MA",
+    url: base,
+    siteName: siteConfig.brand,
+    title: defaultMessages.meta.ogTitle ?? defaultMessages.meta.title,
+    description:
+      defaultMessages.meta.ogDescription ?? defaultMessages.meta.description,
+    images: [
+      {
+        url: siteConfig.heroPosterUrl,
+        width: 1200,
+        height: 630,
+        alt: defaultMessages.meta.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultMessages.meta.ogTitle ?? defaultMessages.meta.title,
+    description:
+      defaultMessages.meta.ogDescription ?? defaultMessages.meta.description,
+    images: [siteConfig.heroPosterUrl],
+  },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({

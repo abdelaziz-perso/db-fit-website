@@ -1,28 +1,24 @@
+import { LocaleHomePage } from "@/components/home/LocaleHomePage";
 import { defaultLocale } from "@/lib/i18n/config";
-
-const defaultPath = `/${defaultLocale}/`;
+import { hreflangAlternates, pagePath } from "@/lib/i18n/url";
+import type { Metadata } from "next";
 
 /**
- * Export statique : pas de vrai redirect HTTP depuis ce fichier. La redirection
- * principale est dans `public/.htaccess` (Hostinger / Apache / LiteSpeed).
- * Script + lien : secours si .htaccess absent et pour navigateurs sans module rewrite.
+ * French home at `/` (no `/fr` prefix). After static export, `scripts/copy-default-locale.mjs`
+ * also mirrors `out/fr/*` into `out/` so deep links match the same URLs.
  */
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    alternates: {
+      canonical: pagePath(defaultLocale, ""),
+      languages: hreflangAlternates(""),
+    },
+    openGraph: {
+      url: pagePath(defaultLocale, ""),
+    },
+  };
+}
+
 export default function RootPage() {
-  return (
-    <div className="flex min-h-[40vh] flex-col items-center justify-center gap-4 p-6 text-center">
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `location.replace(${JSON.stringify(defaultPath)});`,
-        }}
-      />
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">
-        <a
-          href={defaultPath}
-          className="font-semibold text-brand underline underline-offset-4"
-        >
-          Continuer vers le site
-        </a>
-      </p>
-    </div>
-  );
+  return <LocaleHomePage locale={defaultLocale} />;
 }

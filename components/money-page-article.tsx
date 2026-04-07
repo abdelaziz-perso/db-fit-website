@@ -1,16 +1,16 @@
+import type { Locale } from "@/lib/i18n/config";
 import type { MoneyPageContent } from "@/lib/i18n/types-silo";
+import { pagePath } from "@/lib/i18n/url";
 import { FaqJsonLd } from "@/lib/seo/faq-json-ld";
 import Link from "next/link";
 
 type Props = {
-  locale: string;
+  locale: Locale;
   content: MoneyPageContent;
   waHref: string;
 };
 
 export function MoneyPageArticle({ locale, content, waHref }: Props) {
-  const base = `/${locale}`;
-
   return (
     <>
       <FaqJsonLd items={content.faq} />
@@ -123,7 +123,7 @@ export function MoneyPageArticle({ locale, content, waHref }: Props) {
               {content.relatedLinks.map((link) => (
                 <li key={link.slug}>
                   <Link
-                    href={`${base}/${link.slug}`}
+                    href={pagePath(locale, link.slug)}
                     className="text-sm font-semibold text-zinc-700 underline-offset-4 hover:text-brand-fg hover:underline dark:text-zinc-300 dark:hover:text-brand"
                   >
                     {link.label}

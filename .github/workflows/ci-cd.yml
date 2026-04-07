@@ -52,8 +52,10 @@ jobs:
 
       - name: Build static export
         env:
-          # Même origine explicite pour CSS/JS (évite certains hébergeurs qui cassent /_next)
+          # Canonical / sitemap / robots / Open Graph — doit matcher l’URL publique (www vs apex)
           NEXT_PUBLIC_SITE_URL: https://fitnessdarbouazza.ma
+          # Optionnel : meta google-site-verification (sinon le fichier public/google….html suffit)
+          # NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
         run: npm run build
 
       - name: Deploy via FTP

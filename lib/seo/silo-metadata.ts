@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/get-messages";
 import type { SiloPages } from "@/lib/i18n/types-silo";
 import { PAGE_KEY_TO_SLUG } from "@/lib/i18n/silo-routes";
+import { hreflangAlternates, pagePath } from "@/lib/i18n/url";
 import type { Metadata } from "next";
 
 export function siloPageMetadata(
@@ -10,9 +11,16 @@ export function siloPageMetadata(
 ): Metadata {
   const c = getMessages(locale).siloPages[pageKey];
   const slug = PAGE_KEY_TO_SLUG[pageKey];
+  const path = pagePath(locale, slug);
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: `/${locale}/${slug}` },
+    alternates: {
+      canonical: path,
+      languages: hreflangAlternates(slug),
+    },
+    openGraph: {
+      url: path,
+    },
   };
 }

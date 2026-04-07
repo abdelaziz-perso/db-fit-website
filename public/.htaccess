@@ -7,12 +7,18 @@
   # catch-all type SPA renvoie du HTML à la place du CSS/JS).
   RewriteRule ^_next/ - [L]
 
-  # Racine → locale par défaut
-  RewriteRule ^$ /fr/ [R=302,L]
-  RewriteRule ^index\.html$ /fr/ [R=302,L]
+  # Locale par défaut : /fr et /fr/ → / (GET et HEAD). Next.js 16 segment cache en
+  # `output: "export"` envoie un HEAD sur l’URL avant prefetch ; un 404 indique souvent
+  # que les règles ^fr/… ne matchent pas le chemin réel — REQUEST_URI est plus fiable.
+  RewriteCond %{REQUEST_URI} ^/fr/?$ [NC]
+  RewriteRule .* / [R=301,L]
 
-  # Next utilise trailingSlash: true — forcer /fr/ /en/ /ar/ (sinon chemins incohérents)
-  RewriteRule ^(fr|en|ar)$ /$1/ [R=302,L]
+  RewriteCond %{REQUEST_URI} ^/fr/(.+)$ [NC]
+  RewriteRule .* /%1 [R=301,L]
+
+  # trailingSlash: true — en et ar uniquement (ne pas renvoyer /fr → /fr/)
+  RewriteRule ^en$ /en/ [R=302,L]
+  RewriteRule ^ar$ /ar/ [R=302,L]
 </IfModule>
 
 # Polices préchargées avec crossorigin : certains navigateurs exigent un en-tête CORS

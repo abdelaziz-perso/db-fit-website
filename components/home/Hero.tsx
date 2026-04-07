@@ -1,13 +1,15 @@
 "use client";
 
 import { siteConfig } from "@/lib/site/config";
+import type { Locale } from "@/lib/i18n/config";
 import type { Messages } from "@/lib/i18n/types";
+import { localizedHashPath } from "@/lib/i18n/url";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  locale: string;
+  locale: Locale;
   hero: Messages["hero"];
   waTrialHref: string;
   waJoinHref: string;
@@ -120,7 +122,7 @@ export function Hero({
             {hero.ctaCall}
           </Link>
           <Link
-            href={`/${locale}#contact`}
+            href={localizedHashPath(locale, "#contact")}
             className="inline-flex min-h-11 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-bold uppercase tracking-wide text-zinc-600 underline-offset-4 hover:text-zinc-900 hover:underline dark:text-zinc-400 dark:hover:text-white sm:w-auto sm:px-6 sm:py-3.5"
           >
             {hero.ctaHoraires}

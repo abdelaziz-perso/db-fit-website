@@ -3,6 +3,7 @@
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { Locale } from "@/lib/i18n/config";
+import { localizedHashPath, pagePath } from "@/lib/i18n/url";
 import type { Messages } from "@/lib/i18n/types";
 import { siteConfig } from "@/lib/site/config";
 import Image from "next/image";
@@ -172,7 +173,7 @@ export function SiteHeader({ locale, nav }: Props) {
               </div>
               <div className="flex flex-1 flex-col gap-0 overflow-y-auto overscroll-contain p-2">
                 <Link
-                  href={`/${locale}`}
+                  href={pagePath(locale, "")}
                   className="flex min-h-11 touch-manipulation items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold uppercase tracking-wide text-zinc-800 active:bg-zinc-200 dark:text-zinc-200 dark:active:bg-zinc-800"
                   onClick={() => setMenuOpen(false)}
                 >
@@ -184,7 +185,7 @@ export function SiteHeader({ locale, nav }: Props) {
                 {NAV_LINKS.map(({ href, key }) => (
                   <Link
                     key={key}
-                    href={`/${locale}${href}`}
+                    href={localizedHashPath(locale, href)}
                     className="flex min-h-11 touch-manipulation items-center rounded-lg px-4 py-3 text-sm font-bold uppercase tracking-wide text-zinc-800 active:bg-zinc-200 dark:text-zinc-200 dark:active:bg-zinc-800"
                     onClick={() => setMenuOpen(false)}
                   >
@@ -192,7 +193,7 @@ export function SiteHeader({ locale, nav }: Props) {
                   </Link>
                 ))}
                 <Link
-                  href={`/${locale}#contact`}
+                  href={localizedHashPath(locale, "#contact")}
                   className="mx-2 mt-2 inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full border-2 border-brand px-4 text-sm font-black uppercase tracking-wide text-brand-fg dark:text-brand"
                   onClick={() => setMenuOpen(false)}
                 >
@@ -212,7 +213,7 @@ export function SiteHeader({ locale, nav }: Props) {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 min-[400px]:px-4 sm:gap-3 sm:px-6 lg:gap-4 lg:py-3.5">
         <Link
-          href={`/${locale}`}
+          href={pagePath(locale, "")}
           className="flex min-h-11 min-w-0 shrink-0 items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           aria-label={`${siteConfig.brand} — ${nav.home}`}
         >
@@ -233,7 +234,7 @@ export function SiteHeader({ locale, nav }: Props) {
           aria-label="Primary"
         >
           <Link
-            href={`/${locale}`}
+            href={pagePath(locale, "")}
             className={homeNavButtonClass}
             aria-label={nav.home}
             title={nav.home}
@@ -243,7 +244,7 @@ export function SiteHeader({ locale, nav }: Props) {
           {NAV_LINKS.map(({ href, key }) => (
             <Link
               key={key}
-              href={`/${locale}${href}`}
+              href={localizedHashPath(locale, href)}
               className={desktopNavLinkClass}
             >
               {nav[key]}
@@ -257,7 +258,7 @@ export function SiteHeader({ locale, nav }: Props) {
             themeToDark={nav.themeToDark}
           />
           <Link
-            href={`/${locale}#contact`}
+            href={localizedHashPath(locale, "#contact")}
             className={`hidden min-h-11 items-center rounded-full border border-zinc-300 px-3 py-2 text-xs font-bold uppercase tracking-wide text-zinc-800 lg:inline-flex ${navLinkClass} dark:border-white/20 dark:text-white`}
           >
             {nav.contact}

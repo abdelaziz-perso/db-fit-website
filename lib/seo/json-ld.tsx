@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n/config";
+import { pagePath } from "@/lib/i18n/url";
 import { siteConfig } from "@/lib/site/config";
 
 type Props = { locale: string };
@@ -36,7 +38,8 @@ export function SiteGraphJsonLd({ locale }: Props) {
   const orgId = `${base}/#organization`;
   const webId = `${base}/#website`;
   const bizId = `${base}/#business`;
-  const pageUrl = `${base}/${locale}`;
+  const loc = locale as Locale;
+  const pageUrl = `${base}${pagePath(loc, "")}`;
   const { business, org } = descriptions(locale);
 
   const postal = siteConfig.address.postalCode || undefined;

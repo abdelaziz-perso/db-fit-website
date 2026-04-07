@@ -4,6 +4,7 @@ import { SocialIconLinks } from "@/components/social-icon-links";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { StickyWhatsapp } from "@/components/sticky-whatsapp";
 import type { Locale } from "@/lib/i18n/config";
+import { pagePath } from "@/lib/i18n/url";
 import { getMessages } from "@/lib/i18n/get-messages";
 import { whatsappDirectHref } from "@/lib/site/config";
 import Link from "next/link";
@@ -25,7 +26,7 @@ export async function LandingShell({ locale, children }: Props) {
       </main>
       <footer className="border-t border-zinc-200 bg-zinc-100 py-10 text-center dark:border-white/10 dark:bg-black">
         <Link
-          href={`/${locale}`}
+          href={pagePath(locale, "")}
           className="text-sm font-bold uppercase tracking-wide text-brand hover:underline"
         >
           {m.footer.backHome}

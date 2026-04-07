@@ -13,12 +13,21 @@ const defaultInstagram =
 const defaultFacebook =
   process.env.NEXT_PUBLIC_FACEBOOK_URL ?? "https://www.facebook.com/";
 
+/**
+ * Meta tag `content` from Search Console (optional — you already have the HTML file in `public/`).
+ * Example: `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=abc...xyz`
+ */
+const googleVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ?? "";
+
 export const siteConfig = {
   brand: "DB FIT",
   /** Used for JSON-LD & canonicals when set */
   siteUrl:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "https://www.dar-bouazza-dbfit.example",
+  /** Google Search Console (meta tag method); empty if using HTML file only */
+  googleSiteVerification: googleVerification,
   whatsappE164: mainWaE164,
   phoneE164: stripNonDigits(rawPhone),
   phoneDisplay:

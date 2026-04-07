@@ -5,6 +5,7 @@ import {
   locales,
   type Locale,
 } from "@/lib/i18n/config";
+import { stripLocale, withLocale } from "@/lib/i18n/routing";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,8 +15,7 @@ type Props = {
 
 export function LocaleSwitcher({ current }: Props) {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
-  const tail = segments.slice(1).join("/");
+  const { path } = stripLocale(pathname);
 
   return (
     <div
@@ -24,7 +24,7 @@ export function LocaleSwitcher({ current }: Props) {
       aria-label="Language"
     >
       {locales.map((loc) => {
-        const href = `/${loc}${tail ? `/${tail}` : ""}`;
+        const href = withLocale(loc, path);
         const active = loc === current;
         return (
           <Link

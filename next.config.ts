@@ -27,16 +27,21 @@ const tailwindCssEntry = path.join(
 );
 
 /**
- * En prod, URLs absolues pour `/_next/static/*` si `NEXT_PUBLIC_SITE_URL` est défini
- * au build (déploiement FTP). Limite les soucis si le serveur réécrit mal les chemins
- * racine ou si l’URL affichée est /fr sans slash final.
- * Ex. : `NEXT_PUBLIC_SITE_URL=https://fitnessdarbouazza.ma npm run build`
+ * Ne pas lier `assetPrefix` à `NEXT_PUBLIC_SITE_URL` : les balises passeraient en absolu
+ * vers l’apex configuré au build, alors que les visiteurs peuvent être sur `www`, ou
+ * l’FTP peut cibler un sous-dossier — dans ces cas `/_next/static/*` ne correspond plus
+ * et la page s’affiche sans CSS/JS.
+ *
+ * Déploiement à la racine du domaine : laisser `assetPrefix` vide (chemins `/_next/...`).
+ * Sous-dossier uniquement : définir `NEXT_PUBLIC_ASSET_PREFIX` (et en général `basePath`)
+ * au même préfixe, ex. `https://example.com/mon-site`.
  */
-const productionSiteUrl =
+const explicitAssetPrefix =
   process.env.NODE_ENV === "production"
-    ? (process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "")
+    ? (process.env.NEXT_PUBLIC_ASSET_PREFIX?.trim().replace(/\/$/, "") ?? "")
     : "";
-const assetPrefix = productionSiteUrl.length > 0 ? productionSiteUrl : undefined;
+const assetPrefix =
+  explicitAssetPrefix.length > 0 ? explicitAssetPrefix : undefined;
 
 const nextConfig: NextConfig = {
   ...(assetPrefix ? { assetPrefix } : {}),
