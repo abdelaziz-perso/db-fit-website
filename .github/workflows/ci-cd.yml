@@ -67,4 +67,8 @@ jobs:
           port: ${{ secrets.HOSTINGER_PORT }}
           server-dir: ${{ secrets.HOSTINGER_SERVER_DIR }}
           local-dir: ./out/
-          dangerous-clean-slate: true
+          # Ne pas vider le serveur avant upload : évite fenêtre où .htaccess / _next
+          # manquent si l’upload est partiel. `public/.htaccess` est copié dans out/ au build.
+          # SamKirkland/FTP-Deploy-Action v4 n’a pas d’input `clean` : synchro incrémentale
+          # (état déployé) = upload des fichiers modifiés + suppression des fichiers retirés du build.
+          dangerous-clean-slate: false
