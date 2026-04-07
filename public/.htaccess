@@ -1,0 +1,16 @@
+# Next.js export statique sur Hostinger (Apache / LiteSpeed)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Laisser passer les fichiers Next sans réécriture (évite qu’une règle
+  # catch-all type SPA renvoie du HTML à la place du CSS/JS).
+  RewriteRule ^_next/ - [L]
+
+  # Racine → locale par défaut
+  RewriteRule ^$ /fr/ [R=302,L]
+  RewriteRule ^index\.html$ /fr/ [R=302,L]
+
+  # Next utilise trailingSlash: true — forcer /fr/ /en/ /ar/ (sinon chemins incohérents)
+  RewriteRule ^(fr|en|ar)$ /$1/ [R=302,L]
+</IfModule>

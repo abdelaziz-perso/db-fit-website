@@ -26,7 +26,20 @@ const tailwindCssEntry = path.join(
   "node_modules/tailwindcss/index.css",
 );
 
+/**
+ * En prod, URLs absolues pour `/_next/static/*` si `NEXT_PUBLIC_SITE_URL` est défini
+ * au build (déploiement FTP). Limite les soucis si le serveur réécrit mal les chemins
+ * racine ou si l’URL affichée est /fr sans slash final.
+ * Ex. : `NEXT_PUBLIC_SITE_URL=https://fitnessdarbouazza.ma npm run build`
+ */
+const productionSiteUrl =
+  process.env.NODE_ENV === "production"
+    ? (process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "")
+    : "";
+const assetPrefix = productionSiteUrl.length > 0 ? productionSiteUrl : undefined;
+
 const nextConfig: NextConfig = {
+  ...(assetPrefix ? { assetPrefix } : {}),
   /** Export statique pour déploiement FTP (Hostinger) — voir `.github/workflows/ci-cd.yml`. */
   output: "export",
   trailingSlash: true,
