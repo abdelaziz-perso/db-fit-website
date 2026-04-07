@@ -1,19 +1,39 @@
-# Next.js export statique — aligné sur nextjs-portfolio-2026 (Hostinger / Apache / LiteSpeed)
+# Apache (Hostinger) — Next.js static export (output: 'export', trailingSlash: true)
+# Déployer le contenu de out/ à la racine du site (ce fichier = /.htaccess).
 #
-# _next/static/ sans nom de fichier → 403 souvent NORMAL (pas de listing). Tester une URL .css.
+# FR = racine `/` (pas /fr/) ; assets Next en /_next/... — pas de basePath / assetPrefix ici.
 
 AddDefaultCharset utf-8
+
 DirectoryIndex index.html
+
+# Pas de listing (évite 403 sur dossiers vides)
 Options -Indexes
+
 ErrorDocument 404 /404.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  RewriteRule ^_next/ - [L]
+  # Hôte canonique : www → apex (301). À aligner avec NEXT_PUBLIC_SITE_URL (sans www).
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 
-  # Anciennes URLs françaises à la racine (ancien export sans préfixe /fr/)
+  # Forcer HTTPS si l’hébergeur ne le fait pas déjà
+  # RewriteCond %{HTTPS} !=on
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Assets Next : ne pas les réécrire (même logique que le site « qui marche »)
+  RewriteRule ^_next/ - [L]
+  RewriteRule ^(fr|en|ar)/_next/ - [L]
+
+  # Fichiers / répertoires réels d’abord
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Anciennes URLs FR à la racine → /fr/slug/
   RewriteRule ^gym-dar-bouazza/?$ /fr/gym-dar-bouazza/ [R=301,L]
   RewriteRule ^salle-de-sport-dar-bouazza/?$ /fr/salle-de-sport-dar-bouazza/ [R=301,L]
   RewriteRule ^fitness-dar-bouazza/?$ /fr/fitness-dar-bouazza/ [R=301,L]
@@ -28,16 +48,11 @@ ErrorDocument 404 /404.html
   RewriteRule ^salle-sport-tamaris/?$ /fr/salle-sport-tamaris/ [R=301,L]
   RewriteRule ^gym-casablanca-ouest/?$ /fr/gym-casablanca-ouest/ [R=301,L]
 
-  # Canonical host : www → apex (comme le portfolio)
-  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+  # Accueil FR : /fr et /fr/ → /
+  RewriteRule ^fr/?$ / [R=301,L]
 
-  # Doublon accueil FR : /fr et /fr/ → / (GET + HEAD pour segment cache Next)
-  RewriteCond %{REQUEST_URI} ^/fr/?$ [NC]
-  RewriteRule .* / [R=301,L]
-
-  RewriteRule ^en$ /en/ [R=302,L]
-  RewriteRule ^ar$ /ar/ [R=302,L]
+  RewriteRule ^en$ /en/ [R=301,L]
+  RewriteRule ^ar$ /ar/ [R=301,L]
 </IfModule>
 
 <IfModule mod_deflate.c>
@@ -61,6 +76,7 @@ ErrorDocument 404 /404.html
   Header set Referrer-Policy "strict-origin-when-cross-origin"
 
   SetEnvIf Request_URI "^/_next/static/" NEXT_STATIC_ASSET=1
+  SetEnvIf Request_URI "^/(fr|en|ar)/_next/static/" NEXT_STATIC_ASSET=1
   Header set Access-Control-Allow-Origin "*" env=NEXT_STATIC_ASSET
 
   <FilesMatch "\.(html|htm)$">
