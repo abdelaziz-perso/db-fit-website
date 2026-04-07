@@ -9,11 +9,14 @@ import { siteConfig } from "@/lib/site/config";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  /** Évite <link rel="preload" crossorigin> des polices (soucis CORS / cache sur certains hébergeurs). */
+  preload: false,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false,
 });
 
 const defaultMessages = getMessages(defaultLocale);

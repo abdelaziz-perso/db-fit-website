@@ -14,3 +14,10 @@
   # Next utilise trailingSlash: true — forcer /fr/ /en/ /ar/ (sinon chemins incohérents)
   RewriteRule ^(fr|en|ar)$ /$1/ [R=302,L]
 </IfModule>
+
+# Polices préchargées avec crossorigin : certains navigateurs exigent un en-tête CORS
+# même en same-origin ; sans lui, les fonts peuvent échouer (page qui paraît “sans style”).
+<IfModule mod_headers.c>
+  SetEnvIf Request_URI "^/_next/static/" NEXT_STATIC_ASSET=1
+  Header set Access-Control-Allow-Origin "*" env=NEXT_STATIC_ASSET
+</IfModule>

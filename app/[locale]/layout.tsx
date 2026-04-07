@@ -28,17 +28,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: m.meta.description,
     keywords: keywordsForLocale(locale),
     alternates: {
-      canonical: `/${locale}`,
+      canonical: `/${locale}/`,
       languages: {
-        fr: "/fr",
-        en: "/en",
-        ar: "/ar",
+        fr: "/fr/",
+        en: "/en/",
+        ar: "/ar/",
       },
     },
     openGraph: {
       type: "website",
       locale: ogLocale,
-      url: `/${locale}`,
+      url: `/${locale}/`,
       siteName: siteConfig.brand,
       title: m.meta.ogTitle ?? m.meta.title,
       description: m.meta.ogDescription ?? m.meta.description,
