@@ -72,3 +72,4 @@ jobs:
           # SamKirkland/FTP-Deploy-Action v4 n’a pas d’input `clean` : synchro incrémentale
           # (état déployé) = upload des fichiers modifiés + suppression des fichiers retirés du build.
           dangerous-clean-slate: false
+          clean: true
