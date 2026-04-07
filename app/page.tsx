@@ -3,10 +3,7 @@ import { defaultLocale } from "@/lib/i18n/config";
 import { hreflangAlternates, pagePath } from "@/lib/i18n/url";
 import type { Metadata } from "next";
 
-/**
- * French home at `/` (no `/fr` prefix). After static export, `scripts/copy-default-locale.mjs`
- * also mirrors `out/fr/*` into `out/` so deep links match the same URLs.
- */
+/** Home français à `/` — même schéma que nextjs-portfolio-2026 (pages FR ailleurs sous `/fr/...`). */
 export async function generateMetadata(): Promise<Metadata> {
   return {
     alternates: {

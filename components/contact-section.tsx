@@ -94,23 +94,37 @@ export function ContactSection({ contact, waDefaultMessage }: Props) {
           </Reveal>
         </div>
 
-        <Reveal delay={0.12}>
-          <div className="mt-12">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-              {contact.mapTitle}
-            </h3>
-            <div className="mt-4 aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-zinc-900">
-              <iframe
-                title={contact.mapTitle}
-                src={siteConfig.googleMapsEmbedUrl}
-                className="h-full w-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
+        {siteConfig.contactMapEnabled ? (
+          <Reveal delay={0.12}>
+            <div className="mt-12">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+                {contact.mapTitle}
+              </h3>
+              <div className="mt-4 space-y-3">
+                <div className="aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-zinc-900">
+                  <iframe
+                    title={contact.mapTitle}
+                    src={siteConfig.openStreetMapEmbedUrl}
+                    className="h-full w-full"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+                <p className="text-center">
+                  <a
+                    href={siteConfig.googleMapsOpenUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-brand underline-offset-4 hover:underline"
+                  >
+                    {contact.mapOpenGoogleLabel}
+                  </a>
+                </p>
+              </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

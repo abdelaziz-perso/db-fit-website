@@ -279,6 +279,7 @@ export const ar: Messages = {
     phoneLabel: "الهاتف",
     waLabel: "واتساب",
     mapTitle: "خريطة — دار بوعزة (أنصاري)",
+    mapOpenGoogleLabel: "فتح في خرائط Google",
     formTitle: "طلب اتصال",
     formName: "الاسم",
     formPhone: "الهاتف",

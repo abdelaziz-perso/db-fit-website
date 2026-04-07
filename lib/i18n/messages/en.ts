@@ -290,6 +290,7 @@ export const en: Messages = {
     phoneLabel: "Phone",
     waLabel: "WhatsApp",
     mapTitle: "Map — Dar Bouazza (Ansari)",
+    mapOpenGoogleLabel: "Open in Google Maps",
     formTitle: "Get a callback",
     formName: "First name",
     formPhone: "Phone",

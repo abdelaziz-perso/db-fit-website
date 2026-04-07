@@ -189,6 +189,8 @@ export type Messages = {
     phoneLabel: string;
     waLabel: string;
     mapTitle: string;
+    /** Lien sous la carte (ouvre Google Maps dans un nouvel onglet). */
+    mapOpenGoogleLabel: string;
     formTitle: string;
     formName: string;
     formPhone: string;

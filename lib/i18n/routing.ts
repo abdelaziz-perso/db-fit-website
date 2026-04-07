@@ -1,9 +1,9 @@
 /**
- * Same idea as `nextjs-portfolio-2026/lib/i18n/routing.ts`: default locale paths omit `/fr`.
- * DB FIT adds `ar` and copies French silos to the site root after export.
+ * Même modèle que `nextjs-portfolio-2026/lib/i18n/routing.ts`, avec locale `ar` en plus.
+ * Accueil français = `/` ; pages françaises = `/fr/slug/` (pas de copie à la racine).
  */
-import type { Locale } from "./config";
-import { pagePath, parseLocalePathname } from "./url";
+import { defaultLocale, isLocale, type Locale } from "./config";
+import { pagePath } from "./url";
 
 export function withLocale(locale: Locale, path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
@@ -12,8 +12,22 @@ export function withLocale(locale: Locale, path: string): string {
   return pagePath(locale, slug);
 }
 
-export function stripLocale(pathname: string): { locale: Locale; path: string } {
-  const { locale, slugTail } = parseLocalePathname(pathname);
-  const p = slugTail ? `/${slugTail}` : "/";
-  return { locale, path: p };
+/**
+ * Retire le segment de locale si présent. `/` = home FR. Chemin sans locale = `locale: null`
+ * (ex. ancienne URL) pour que `withLocale` reconstruise `/fr/...`.
+ */
+export function stripLocale(pathname: string): {
+  locale: Locale | null;
+  path: string;
+} {
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments.length === 0) {
+    return { locale: defaultLocale, path: "/" };
+  }
+  const first = segments[0];
+  if (isLocale(first)) {
+    const rest = segments.slice(1).join("/");
+    return { locale: first, path: rest ? `/${rest}` : "/" };
+  }
+  return { locale: null, path: `/${segments.join("/")}` };
 }

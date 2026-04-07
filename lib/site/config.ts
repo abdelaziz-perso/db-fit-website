@@ -20,6 +20,17 @@ const defaultFacebook =
 const googleVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ?? "";
 
+const geoCoords = {
+  latitude: 33.38,
+  longitude: -7.82,
+} as const;
+
+function openStreetMapEmbedFromGeo(lat: number, lon: number): string {
+  const pad = 0.045;
+  const bbox = `${lon - pad},${lat - pad},${lon + pad},${lat + pad}`;
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${lat}%2C${lon}`;
+}
+
 export const siteConfig = {
   brand: "DB FIT",
   /** Used for JSON-LD & canonicals when set */
@@ -48,13 +59,19 @@ export const siteConfig = {
     postalCode: "",
     addressCountry: "MA",
   },
-  geo: {
-    latitude: 33.38,
-    longitude: -7.82,
-  },
-  googleMapsEmbedUrl:
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ??
-    "https://www.google.com/maps?q=Dar+Bouazza+Ansari+Casablanca&output=embed",
+  geo: geoCoords,
+  /** Bloc carte (iframe + lien) sur la page contact. Mets `true` quand tu es prêt. */
+  contactMapEnabled: false,
+  openStreetMapEmbedUrl: openStreetMapEmbedFromGeo(
+    geoCoords.latitude,
+    geoCoords.longitude,
+  ),
+  /**
+   * Lien « Ouvrir dans Google Maps » quand la carte est activée.
+   */
+  googleMapsOpenUrl:
+    process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL?.trim() ||
+    "https://www.google.com/maps?q=Dar+Bouazza+Ansari+Casablanca",
   instagramUrl: defaultInstagram,
   facebookUrl: defaultFacebook,
   /** Réseaux Mehdi — si vides, même page que le club (icônes toujours visibles). */

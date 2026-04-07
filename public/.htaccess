@@ -1,46 +1,73 @@
-# Next.js export statique sur Hostinger (Apache / LiteSpeed)
+# Next.js export statique — aligné sur nextjs-portfolio-2026 (Hostinger / Apache / LiteSpeed)
 #
-# IMPORTANT — test SEO / debug :
-#   • https://votredomaine/_next/static/  → 403 est SOUVENT NORMAL (listing de dossier interdit).
-#   • Le bon test : ouvrir une URL de fichier, ex. …/chunks/xxxx.css → doit être 200 text/css.
-#   Si les .css / .js sont en 403, vérifiez permissions (dossiers 755, fichiers 644) et hPanel.
+# _next/static/ sans nom de fichier → 403 souvent NORMAL (pas de listing). Tester une URL .css.
+
+AddDefaultCharset utf-8
+DirectoryIndex index.html
+Options -Indexes
+ErrorDocument 404 /404.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Laisser passer les fichiers Next sans réécriture (évite qu’une règle
-  # catch-all type SPA renvoie du HTML à la place du CSS/JS).
   RewriteRule ^_next/ - [L]
 
-  # Locale par défaut : /fr et /fr/ → / (GET et HEAD). Next.js 16 segment cache en
-  # `output: "export"` envoie un HEAD sur l’URL avant prefetch ; un 404 indique souvent
-  # que les règles ^fr/… ne matchent pas le chemin réel — REQUEST_URI est plus fiable.
+  # Anciennes URLs françaises à la racine (ancien export sans préfixe /fr/)
+  RewriteRule ^gym-dar-bouazza/?$ /fr/gym-dar-bouazza/ [R=301,L]
+  RewriteRule ^salle-de-sport-dar-bouazza/?$ /fr/salle-de-sport-dar-bouazza/ [R=301,L]
+  RewriteRule ^fitness-dar-bouazza/?$ /fr/fitness-dar-bouazza/ [R=301,L]
+  RewriteRule ^coaching-sportif-dar-bouazza/?$ /fr/coaching-sportif-dar-bouazza/ [R=301,L]
+  RewriteRule ^salle-femmes-dar-bouazza/?$ /fr/salle-femmes-dar-bouazza/ [R=301,L]
+  RewriteRule ^fitness-mixte-dar-bouazza/?$ /fr/fitness-mixte-dar-bouazza/ [R=301,L]
+  RewriteRule ^salle-hommes-dar-bouazza/?$ /fr/salle-hommes-dar-bouazza/ [R=301,L]
+  RewriteRule ^abonnement-gym-dar-bouazza/?$ /fr/abonnement-gym-dar-bouazza/ [R=301,L]
+  RewriteRule ^programme-musculation-debutant/?$ /fr/programme-musculation-debutant/ [R=301,L]
+  RewriteRule ^perdre-poids-rapidement/?$ /fr/perdre-poids-rapidement/ [R=301,L]
+  RewriteRule ^exercices-salle-de-sport/?$ /fr/exercices-salle-de-sport/ [R=301,L]
+  RewriteRule ^salle-sport-tamaris/?$ /fr/salle-sport-tamaris/ [R=301,L]
+  RewriteRule ^gym-casablanca-ouest/?$ /fr/gym-casablanca-ouest/ [R=301,L]
+
+  # Canonical host : www → apex (comme le portfolio)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # Doublon accueil FR : /fr et /fr/ → / (GET + HEAD pour segment cache Next)
   RewriteCond %{REQUEST_URI} ^/fr/?$ [NC]
   RewriteRule .* / [R=301,L]
 
-  RewriteCond %{REQUEST_URI} ^/fr/(.+)$ [NC]
-  RewriteRule .* /%1 [R=301,L]
-
-  # trailingSlash: true — en et ar uniquement (ne pas renvoyer /fr → /fr/)
   RewriteRule ^en$ /en/ [R=302,L]
   RewriteRule ^ar$ /ar/ [R=302,L]
 </IfModule>
 
-# Polices préchargées avec crossorigin : certains navigateurs exigent un en-tête CORS
-# même en same-origin ; sans lui, les fonts peuvent échouer (page qui paraît “sans style”).
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
 <IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+
   SetEnvIf Request_URI "^/_next/static/" NEXT_STATIC_ASSET=1
   Header set Access-Control-Allow-Origin "*" env=NEXT_STATIC_ASSET
 
-  # Après un déploiement FTP, une vieille index.html en cache pointait vers d’anciens
-  # fichiers /_next/static/chunks/*.css (404) → page sans styles. Forcer revalidation du HTML.
   <FilesMatch "\.(html|htm)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
 </IfModule>
 
-# Types MIME explicites (si le serveur devine mal un fichier statique)
 <IfModule mod_mime.c>
   AddType text/css .css
   AddType application/javascript .js
