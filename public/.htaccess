@@ -1,4 +1,10 @@
 # Next.js export statique sur Hostinger (Apache / LiteSpeed)
+#
+# IMPORTANT — test SEO / debug :
+#   • https://votredomaine/_next/static/  → 403 est SOUVENT NORMAL (listing de dossier interdit).
+#   • Le bon test : ouvrir une URL de fichier, ex. …/chunks/xxxx.css → doit être 200 text/css.
+#   Si les .css / .js sont en 403, vérifiez permissions (dossiers 755, fichiers 644) et hPanel.
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -26,4 +32,17 @@
 <IfModule mod_headers.c>
   SetEnvIf Request_URI "^/_next/static/" NEXT_STATIC_ASSET=1
   Header set Access-Control-Allow-Origin "*" env=NEXT_STATIC_ASSET
+
+  # Après un déploiement FTP, une vieille index.html en cache pointait vers d’anciens
+  # fichiers /_next/static/chunks/*.css (404) → page sans styles. Forcer revalidation du HTML.
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Types MIME explicites (si le serveur devine mal un fichier statique)
+<IfModule mod_mime.c>
+  AddType text/css .css
+  AddType application/javascript .js
+  AddType font/woff2 .woff2
 </IfModule>

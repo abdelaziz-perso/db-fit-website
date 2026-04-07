@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build && node scripts/copy-default-locale.mjs && node scripts/patch-html-lang.mjs",
+    "build": "next build && node scripts/write-next-htaccess.mjs && node scripts/copy-default-locale.mjs && node scripts/patch-html-lang.mjs",
     "start": "next start",
     "lint": "eslint"
   },
