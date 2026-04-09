@@ -42,6 +42,8 @@ jobs:
           # upload-artifact v4 default excludes hidden files — would drop .htaccess (root + _next).
           include-hidden-files: true
 
+  # Deploy consomme uniquement l’artefact `next-static-out` : un seul `npm run build` (job ci).
+  # Pas de second build ici — HTML et _next/static partagent les mêmes hashes.
   deploy:
     name: Deploy to Hostinger (FTP)
     needs: ci
@@ -75,5 +77,8 @@ jobs:
           # `server-dir` (secret) doit finir par `/` et être le même dossier que dans FileZilla (ex. public_html/).
           server-dir: ${{ secrets.HOSTINGER_SERVER_DIR }}
           local-dir: ./out/
-          dangerous-clean-slate: false
+          # Vide server-dir puis ré-upload tout : évite un mix HTML (build N) + chunks (_next) d’un build N-1.
+          # Exiger que HOSTINGER_SERVER_DIR soit uniquement la racine du site (ex. public_html/), sans autres fichiers vitaux.
+          dangerous-clean-slate: true
+          timeout: 600000
           log-level: standard
