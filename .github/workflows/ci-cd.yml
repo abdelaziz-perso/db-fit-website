@@ -39,6 +39,8 @@ jobs:
           name: next-static-out
           path: out/
           retention-days: 7
+          # upload-artifact v4 default excludes hidden files — would drop .htaccess (root + _next).
+          include-hidden-files: true
 
   deploy:
     name: Deploy to Hostinger (FTP)
