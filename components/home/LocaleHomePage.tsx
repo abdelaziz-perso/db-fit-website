@@ -52,6 +52,12 @@ export async function LocaleHomePage({ locale }: Props) {
           bookCoach={m.bookCoach}
           lead={m.coachingLead}
           quickWaHref={waCoachingQuick}
+          mailFeedback={{
+            formSending: m.contact.formSending,
+            formSuccess: m.contact.formSuccess,
+            formError: m.contact.formError,
+            formWaPopupBlocked: m.contact.formWaPopupBlocked,
+          }}
         />
         <Pricing pricing={m.pricing} waHref={waPricing} />
         <Testimonials testimonials={m.testimonials} />

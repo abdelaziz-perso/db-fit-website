@@ -9,6 +9,12 @@ type Props = {
   bookCoach: Messages["bookCoach"];
   lead: Messages["coachingLead"];
   quickWaHref: string;
+  mailFeedback: {
+    formSending: string;
+    formSuccess: string;
+    formError: string;
+    formWaPopupBlocked: string;
+  };
 };
 
 /**
@@ -19,6 +25,7 @@ export function Coaching({
   bookCoach,
   lead,
   quickWaHref,
+  mailFeedback,
 }: Props) {
   return (
     <section
@@ -51,7 +58,11 @@ export function Coaching({
         </Reveal>
 
         <CoachesSection coaches={coaches} embedded />
-        <BookCoachSection bookCoach={bookCoach} embedded />
+        <BookCoachSection
+          bookCoach={bookCoach}
+          embedded
+          mailFeedback={mailFeedback}
+        />
       </div>
     </section>
   );

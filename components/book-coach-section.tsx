@@ -5,9 +5,21 @@ import type { Messages } from "@/lib/i18n/types";
 import { whatsappHref } from "@/lib/site/config";
 import { useState, type FormEvent } from "react";
 
+type MailFeedback = {
+  formSending: string;
+  formSuccess: string;
+  formError: string;
+  formWaPopupBlocked: string;
+};
+
 type Mode = "home" | "online" | "gym" | "other";
 
-type Props = { bookCoach: Messages["bookCoach"]; embedded?: boolean };
+type Props = {
+  bookCoach: Messages["bookCoach"];
+  embedded?: boolean;
+  /** Libellés identiques au formulaire contact (e-mail + WhatsApp). */
+  mailFeedback: MailFeedback;
+};
 
 function modeChoiceLabel(book: Messages["bookCoach"], mode: Mode): string {
   switch (mode) {
@@ -41,7 +53,11 @@ function coachBookingLine(
 const selectClass =
   "mt-2 w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand dark:border-white/15 dark:bg-zinc-950 dark:text-white";
 
-export function BookCoachSection({ bookCoach: book, embedded }: Props) {
+export function BookCoachSection({
+  bookCoach: book,
+  embedded,
+  mailFeedback: mf,
+}: Props) {
   const [mode, setMode] = useState<Mode>("gym");
   const [durationId, setDurationId] = useState(
     () => book.durationOptions[0]?.id ?? "60",
@@ -53,9 +69,11 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
   const [phone, setPhone] = useState("");
   const [detailsOptional, setDetailsOptional] = useState("");
   const [otherDetails, setOtherDetails] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
+  function buildWhatsappUrl(): string {
     const parts = [
       book.formWaPrefix.trim(),
       `${book.modeLabel}: ${modeChoiceLabel(book, mode)}`,
@@ -69,11 +87,73 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
     } else if (detailsOptional.trim()) {
       parts.push(`${book.detailsOptionalLabel}: ${detailsOptional.trim()}`);
     }
-    window.open(
-      whatsappHref(parts.filter(Boolean).join(" — ")),
-      "_blank",
-      "noopener,noreferrer",
-    );
+    return whatsappHref(parts.filter(Boolean).join(" — "));
+  }
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    const waUrl = buildWhatsappUrl();
+
+    const host =
+      typeof window !== "undefined" ? window.location.hostname : "";
+    if (host === "localhost" || host === "127.0.0.1") {
+      setStatus("success");
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+      setName("");
+      setPhone("");
+      setDetailsOptional("");
+      setOtherDetails("");
+      setTimeout(() => setStatus("idle"), 5000);
+      return;
+    }
+
+    setStatus("submitting");
+    try {
+      const response = await fetch("/contact.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          form: "reservation",
+          name: name.trim(),
+          phone: phone.trim(),
+          mode: modeChoiceLabel(book, mode),
+          duration: optionLabel(book.durationOptions, durationId),
+          coach: coachBookingLine(book.coachOptions, coachId),
+          detailsOptional:
+            mode === "other" ? "" : detailsOptional.trim(),
+          otherDetails: mode === "other" ? otherDetails.trim() : "",
+        }),
+      });
+
+      let result: { success?: boolean };
+      try {
+        result = (await response.json()) as { success?: boolean };
+      } catch {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 6000);
+        return;
+      }
+
+      if (!response.ok || !result.success) {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 6000);
+        return;
+      }
+
+      setStatus("success");
+      const win = window.open(waUrl, "_blank", "noopener,noreferrer");
+      if (!win || win.closed || typeof win.closed === "undefined") {
+        alert(mf.formWaPopupBlocked);
+      }
+      setName("");
+      setPhone("");
+      setDetailsOptional("");
+      setOtherDetails("");
+      setTimeout(() => setStatus("idle"), 6000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 6000);
+    }
   }
 
   const modes: { value: Mode }[] = [
@@ -109,6 +189,22 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
             aria-label={embedded ? book.title : undefined}
             className={`max-w-full rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50 sm:p-6 md:p-8 ${embedded ? "mt-0" : "mt-8 sm:mt-10"}`}
           >
+            {status === "success" && (
+              <p
+                className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900/40 dark:bg-emerald-950/40 dark:text-emerald-100"
+                role="status"
+              >
+                {mf.formSuccess}
+              </p>
+            )}
+            {status === "error" && (
+              <p
+                className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900/40 dark:bg-red-950/40 dark:text-red-100"
+                role="alert"
+              >
+                {mf.formError}
+              </p>
+            )}
             <fieldset>
               <legend className="text-xs font-bold uppercase tracking-wide text-zinc-500">
                 {book.modeLabel}
@@ -134,6 +230,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                         value={value}
                         checked={selected}
                         onChange={() => setMode(value)}
+                        disabled={status === "submitting"}
                         className="h-4 w-4 shrink-0 accent-brand"
                       />
                       <span>{modeChoiceLabel(book, value)}</span>
@@ -149,6 +246,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                 value={durationId}
                 onChange={(e) => setDurationId(e.target.value)}
                 required
+                disabled={status === "submitting"}
                 className={selectClass}
               >
                 {book.durationOptions.map((d) => (
@@ -185,6 +283,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                           value={c.id}
                           checked={selected}
                           onChange={() => setCoachId(c.id)}
+                          disabled={status === "submitting"}
                           className="mt-0.5 h-4 w-4 shrink-0 accent-brand"
                         />
                         <span className="min-w-0 leading-snug">
@@ -211,6 +310,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                   value={otherDetails}
                   onChange={(e) => setOtherDetails(e.target.value)}
                   required
+                  disabled={status === "submitting"}
                   rows={3}
                   placeholder={book.otherDetailsPlaceholder}
                   className="mt-2 w-full resize-y rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm font-normal normal-case text-zinc-900 outline-none focus:border-brand dark:border-white/15 dark:bg-zinc-950 dark:text-white"
@@ -222,6 +322,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                 <textarea
                   value={detailsOptional}
                   onChange={(e) => setDetailsOptional(e.target.value)}
+                  disabled={status === "submitting"}
                   rows={2}
                   placeholder={book.detailsOptionalPlaceholder}
                   className="mt-2 w-full resize-y rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm font-normal normal-case text-zinc-900 outline-none focus:border-brand dark:border-white/15 dark:bg-zinc-950 dark:text-white"
@@ -236,6 +337,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  disabled={status === "submitting"}
                   autoComplete="name"
                   className="mt-2 w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand dark:border-white/15 dark:bg-zinc-950 dark:text-white"
                 />
@@ -246,6 +348,7 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
+                  disabled={status === "submitting"}
                   type="tel"
                   autoComplete="tel"
                   className="mt-2 w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand dark:border-white/15 dark:bg-zinc-950 dark:text-white"
@@ -255,9 +358,10 @@ export function BookCoachSection({ bookCoach: book, embedded }: Props) {
 
             <button
               type="submit"
-              className="mt-8 w-full rounded-full bg-brand py-3.5 text-sm font-black uppercase tracking-wide text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-10"
+              disabled={status === "submitting"}
+              className="mt-8 w-full rounded-full bg-brand py-3.5 text-sm font-black uppercase tracking-wide text-white transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto sm:px-10"
             >
-              {book.formSubmit}
+              {status === "submitting" ? mf.formSending : book.formSubmit}
             </button>
           </form>
     </Reveal>
