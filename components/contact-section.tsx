@@ -104,10 +104,10 @@ export function ContactSection({ contact, waDefaultMessage }: Props) {
                 <div className="aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-zinc-900">
                   <iframe
                     title={contact.mapTitle}
-                    src={siteConfig.openStreetMapEmbedUrl}
-                    className="h-full w-full"
+                    src={siteConfig.googleMapsEmbedUrl}
+                    className="h-full w-full border-0"
                     loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
+                    referrerPolicy="no-referrer-when-downgrade"
                     allowFullScreen
                   />
                 </div>
