@@ -54,6 +54,11 @@ const nextConfig: NextConfig = {
   /**
    * Workspace ouvert sur un dossier parent : Turbopack résout parfois `@import "tailwindcss"`
    * depuis ce parent. `root` + `resolveAlias` (chemin absolu) alignent build et dev.
+   *
+   * Important : le build prod utilise `next build --webpack` (voir `package.json`) — avec
+   * `output: 'export'` + Tailwind v4, le build Turbopack par défaut peut émettre un CSS
+   * quasi vide (~quelques Ko dans `chunks/`) alors que Webpack produit la feuille complète
+   * dans `_next/static/css/` (~tens of Ko).
    */
   turbopack: {
     root: projectRoot,

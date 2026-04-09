@@ -31,10 +31,10 @@ const defaultGoogleMapsEmbedUrl =
 
 export const siteConfig = {
   brand: "DB FIT",
-  /** Used for JSON-LD & canonicals when set */
+  /** Used for JSON-LD & canonicals when set (évite un domaine d’un autre projet si l’env manque). */
   siteUrl:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-    "https://www.dar-bouazza-dbfit.example",
+    "https://fitnessdarbouazza.ma",
   /** Google Search Console (meta tag method); empty if using HTML file only */
   googleSiteVerification: googleVerification,
   whatsappE164: mainWaE164,
