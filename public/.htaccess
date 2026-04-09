@@ -2,6 +2,10 @@
 # Déployer le contenu de out/ à la racine du site (ce fichier = /.htaccess).
 #
 # FR = racine `/` (pas /fr/) ; assets Next en /_next/... — pas de basePath / assetPrefix ici.
+#
+# Même esprit que ../nextjs-portfolio-2026/public/.htaccess (réécritures minimales) :
+# les fichiers réels (dont /_next/static/*) doivent être servis AVANT toute règle SEO,
+# sinon risque de réponse HTML (404/rewrite) sur des URLs .css → MIME text/html + nosniff.
 
 AddDefaultCharset utf-8
 
@@ -24,17 +28,18 @@ ErrorDocument 404 /404.html
   # RewriteCond %{HTTPS} !=on
   # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Assets Next : ne pas les réécrire (même logique que le site « qui marche »)
-  RewriteRule ^_next/ - [L]
-  RewriteRule ^(fr|en|ar)/_next/ - [L]
+  # --- Fichiers / répertoires réels en premier (comme un export statique « simple ») ---
+  # Évite qu’une règle plus bas renvoie du HTML pour une URL qui doit être .css / .js.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
 
   # /favicon.ico → PNG 48×48 (Googlebot teste souvent cette URL ; évite 404 sans .ico en build)
   RewriteRule ^favicon\.ico$ /icon.png [L]
 
-  # Fichiers / répertoires réels d’abord
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
+  # Garde-fou _next : si la résolution de chemin diffère (LiteSpeed / dossiers « _ »), ne pas réécrire.
+  RewriteRule ^_next/ - [L]
+  RewriteRule ^(fr|en|ar)/_next/ - [L]
 
   # Anciennes URLs FR à la racine → /fr/slug/
   RewriteRule ^gym-dar-bouazza/?$ /fr/gym-dar-bouazza/ [R=301,L]
@@ -81,6 +86,14 @@ ErrorDocument 404 /404.html
   SetEnvIf Request_URI "^/_next/static/" NEXT_STATIC_ASSET=1
   SetEnvIf Request_URI "^/(fr|en|ar)/_next/static/" NEXT_STATIC_ASSET=1
   Header set Access-Control-Allow-Origin "*" env=NEXT_STATIC_ASSET
+
+  # Avec nosniff, un Content-Type erroné (ex. text/html sur .css) fait refuser la feuille de style.
+  <FilesMatch "\.css$">
+    Header set Content-Type "text/css; charset=utf-8"
+  </FilesMatch>
+  <FilesMatch "\.(js|mjs)$">
+    Header set Content-Type "application/javascript; charset=utf-8"
+  </FilesMatch>
 
   <FilesMatch "\.(html|htm)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"

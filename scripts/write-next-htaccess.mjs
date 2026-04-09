@@ -13,12 +13,23 @@ const outNext = path.join(root, "out", "_next");
 const inner = `# Next.js assets — ne pas traiter ce dossier comme “caché” / interdit.
 # Note : une requête sur /_next/static/ (sans fichier) peut rester en 403 : c’est le
 # refus d’afficher le listing du répertoire, pas un blocage des .css / .js.
+#
+# ForceType (mod_mime) : sur certains hôtes, les chunks sortent en text/html ou octet-stream ;
+# avec X-Content-Type-Options: nosniff à la racine, le navigateur refuse d’appliquer le CSS.
 <IfModule mod_authz_core.c>
   Require all granted
 </IfModule>
 <IfModule !mod_authz_core.c>
   Order allow,deny
   Allow from all
+</IfModule>
+<IfModule mod_mime.c>
+  <FilesMatch "\\.css$">
+    ForceType text/css
+  </FilesMatch>
+  <FilesMatch "\\.(js|mjs)$">
+    ForceType application/javascript
+  </FilesMatch>
 </IfModule>
 `;
 
