@@ -28,40 +28,30 @@ jobs:
         run: npm run lint
 
       - name: Build
-        env:
-          NEXT_PUBLIC_SITE_URL: https://fitnessdarbouazza.ma
         run: npm run build
 
-      - name: Upload static export for deploy
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v4
-        with:
-          name: next-static-out
-          path: out/
-          retention-days: 7
-          # upload-artifact v4 default excludes hidden files — would drop .htaccess (root + _next).
-          include-hidden-files: true
-
-  # Deploy consomme uniquement l’artefact `next-static-out` : un seul `npm run build` (job ci).
-  # Pas de second build ici — HTML et _next/static partagent les mêmes hashes.
   deploy:
     name: Deploy to Hostinger (FTP)
     needs: ci
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     steps:
-      - name: Download static export
-        uses: actions/download-artifact@v4
-        with:
-          name: next-static-out
-          path: out
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Verify export (htaccess + _next)
-        run: |
-          test -f out/.htaccess || (echo "missing out/.htaccess" && exit 1)
-          test -d out/_next || (echo "missing out/_next" && exit 1)
-          test -f out/_next/.htaccess || (echo "missing out/_next/.htaccess (Hostinger may block _next)" && exit 1)
-          find out -name '.htaccess' -print
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        env:
+          NEXT_PUBLIC_SITE_URL: https://abdelazizelhathout.com
+        run: npm run build
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -69,16 +59,7 @@ jobs:
           server: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
           password: ${{ secrets.HOSTINGER_PASSWORD }}
-          # Secret vide = chaîne vide et peut casser la connexion ; `|| 21` garde le défaut FTP.
-          port: ${{ secrets.HOSTINGER_PORT || 21 }}
-          # Si FileZilla utilise « FTP sur TLS explicite », décommenter et ajuster le port selon le panneau Hostinger :
-          # protocol: ftps
-          # Si l’hébergeur impose FTPS sur un autre port, remplacer `port` ci-dessus.
-          # `server-dir` (secret) doit finir par `/` et être le même dossier que dans FileZilla (ex. public_html/).
+          port: ${{ secrets.HOSTINGER_PORT }}
           server-dir: ${{ secrets.HOSTINGER_SERVER_DIR }}
           local-dir: ./out/
-          # Vide server-dir puis ré-upload tout : évite un mix HTML (build N) + chunks (_next) d’un build N-1.
-          # Exiger que HOSTINGER_SERVER_DIR soit uniquement la racine du site (ex. public_html/), sans autres fichiers vitaux.
           dangerous-clean-slate: true
-          timeout: 600000
-          log-level: standard
