@@ -28,6 +28,9 @@ ErrorDocument 404 /404.html
   RewriteRule ^_next/ - [L]
   RewriteRule ^(fr|en|ar)/_next/ - [L]
 
+  # /favicon.ico → PNG 48×48 (Googlebot teste souvent cette URL ; évite 404 sans .ico en build)
+  RewriteRule ^favicon\.ico$ /icon.png [L]
+
   # Fichiers / répertoires réels d’abord
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d

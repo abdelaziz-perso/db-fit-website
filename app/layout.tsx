@@ -28,6 +28,14 @@ export const metadata: Metadata = {
   title: defaultMessages.meta.title,
   description: defaultMessages.meta.description,
   applicationName: siteConfig.brand,
+  /** Favicon ≥48×48 pour Google Search ; @see https://developers.google.com/search/docs/appearance/favicon-in-search */
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png", sizes: "48x48" },
+      { url: "/apple-icon.png", type: "image/png", sizes: "180x180" },
+    ],
+    apple: "/apple-icon.png",
+  },
   referrer: "origin-when-cross-origin",
   robots: {
     index: true,

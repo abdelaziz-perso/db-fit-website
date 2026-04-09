@@ -32,31 +32,32 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://fitnessdarbouazza.ma
         run: npm run build
 
+      - name: Upload static export for deploy
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-static-out
+          path: out/
+          retention-days: 7
+
   deploy:
     name: Deploy to Hostinger (FTP)
     needs: ci
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Download static export
+        uses: actions/download-artifact@v4
         with:
-          node-version: 20
-          cache: "npm"
+          name: next-static-out
+          path: out
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build static export
-        env:
-          # Canonical / sitemap / robots / Open Graph — doit matcher l’URL publique (www vs apex)
-          NEXT_PUBLIC_SITE_URL: https://fitnessdarbouazza.ma
-          # Optionnel : meta google-site-verification (sinon le fichier public/google….html suffit)
-          # NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
-        run: npm run build
+      - name: Verify export (htaccess + _next)
+        run: |
+          test -f out/.htaccess || (echo "missing out/.htaccess" && exit 1)
+          test -d out/_next || (echo "missing out/_next" && exit 1)
+          test -f out/_next/.htaccess || (echo "missing out/_next/.htaccess (Hostinger may block _next)" && exit 1)
+          find out -name '.htaccess' -print
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -64,12 +65,13 @@ jobs:
           server: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
           password: ${{ secrets.HOSTINGER_PASSWORD }}
-          port: ${{ secrets.HOSTINGER_PORT }}
+          # Secret vide = chaîne vide et peut casser la connexion ; `|| 21` garde le défaut FTP.
+          port: ${{ secrets.HOSTINGER_PORT || 21 }}
+          # Si FileZilla utilise « FTP sur TLS explicite », décommenter et ajuster le port selon le panneau Hostinger :
+          # protocol: ftps
+          # Si l’hébergeur impose FTPS sur un autre port, remplacer `port` ci-dessus.
+          # `server-dir` (secret) doit finir par `/` et être le même dossier que dans FileZilla (ex. public_html/).
           server-dir: ${{ secrets.HOSTINGER_SERVER_DIR }}
           local-dir: ./out/
-          # Ne pas vider le serveur avant upload : évite fenêtre où .htaccess / _next
-          # manquent si l’upload est partiel. `public/.htaccess` est copié dans out/ au build.
-          # SamKirkland/FTP-Deploy-Action v4 n’a pas d’input `clean` : synchro incrémentale
-          # (état déployé) = upload des fichiers modifiés + suppression des fichiers retirés du build.
           dangerous-clean-slate: false
-          clean: true
+          log-level: standard
