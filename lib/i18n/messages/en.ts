@@ -3,16 +3,17 @@ import { siloPagesEn } from "./silo-pages-en";
 
 export const en: Messages = {
   meta: {
-    title: "DB FIT — Gym & fitness club in Dar Bouazza (Ansari)",
+    title:
+      "DB FIT — Gym in Dar Bouazza (Tamaris · Ansari) | Strength, cardio & coaching",
     description:
-      "Gym in Dar Bouazza: women’s, men’s & mixed areas, strength, cardio & coaching. Near Tamaris. Open 7 days — WhatsApp for a trial session.",
-    ogTitle: "DB FIT — Gym & fitness in Dar Bouazza",
+      "Gym & fitness in Dar Bouazza near Tamaris (Ansari): women’s, men’s & mixed areas, strength, cardio & coaching. Membership & trial — WhatsApp.",
+    ogTitle: "DB FIT — Gym Dar Bouazza & Tamaris | Fitness club",
     ogDescription:
-      "Train in Ansari with modern kit, on-floor coaching, and daily access.",
+      "Join DB FIT in Ansari: close to Tamaris, modern equipment, on-floor coaching. Open 7 days.",
   },
   features: {
     kicker: "Why DB FIT",
-    title: "Built for real progress",
+    title: "Your Dar Bouazza gym — built for real progress",
     intro:
       "Reliable equipment, coaches on the floor, and spaces for every profile — without empty promises.",
     items: [
@@ -73,6 +74,7 @@ export const en: Messages = {
     spaces: "Spaces",
     activities: "Activities",
     coaching: "Coaching",
+    gallery: "Gallery",
     pricing: "Pricing",
     testimonials: "Reviews",
     faq: "FAQ",
@@ -85,11 +87,14 @@ export const en: Messages = {
     backToTop: "Back to top",
   },
   hero: {
-    kicker: "DB FIT · Ansari, Dar Bouazza",
-    headline: "Your gym in Dar Bouazza",
-    sub: "Women’s, men’s & mixed areas. Strength, cardio & on-site coaching. Open every day — book a trial on WhatsApp.",
-    heroImageAlt: "DB FIT training floor — gym in Dar Bouazza",
-    ctaJoin: "Join now",
+    kicker: "DB FIT · Dar Bouazza — Tamaris · Ansari",
+    headline: "Gym in Dar Bouazza — fitness near Tamaris",
+    sub: "Join DB FIT today: women’s, men’s & mixed zones, strength, cardio & coaching in Ansari. Open 7 days — sign up or book a trial on WhatsApp.",
+    heroImageAlt:
+      "DB FIT — gym & fitness club in Dar Bouazza (Ansari), near Tamaris",
+    linkAbonnement: "Gym membership Dar Bouazza",
+    linkFitnessTamaris: "Fitness Tamaris",
+    ctaJoin: "Sign up now",
     ctaTrial: "Free trial session",
     ctaWhatsapp: "WhatsApp",
     ctaCall: "Call",
@@ -272,6 +277,14 @@ export const en: Messages = {
       },
     ],
   },
+  gallery: {
+    kicker: "Gallery",
+    title: "The gym in pictures",
+    intro:
+      "A few shots of our spaces and atmosphere at DB FIT — scrolls automatically.",
+    imageAlt: "DB FIT Dar Bouazza — photo",
+    closeLightbox: "Close image",
+  },
   finalCta: {
     title: "Join DB FIT today and start your transformation.",
     urgency: "Limited peak-hour spots — book your trial.",
@@ -291,6 +304,8 @@ export const en: Messages = {
     waLabel: "WhatsApp",
     mapTitle: "Map — Dar Bouazza (Ansari)",
     mapOpenGoogleLabel: "Open in Google Maps",
+    napLine:
+      "Ansari, Dar Bouazza — near Tamaris · Strength, cardio & coaching",
     formTitle: "Get a callback",
     formName: "First name",
     formPhone: "Phone",
@@ -314,7 +329,8 @@ export const en: Messages = {
     seoSalleFemmes: "Women’s gym Dar Bouazza",
     seoFitnessMixte: "Mixed fitness Dar Bouazza",
     seoSalleSport: "Sports club Dar Bouazza",
-    seoAbonnement: "Gym membership",
+    seoTamaris: "Gym & fitness Tamaris",
+    seoAbonnement: "Gym membership Dar Bouazza",
     seoProgrammeDebutant: "Beginner strength programme",
   },
   horaires: {

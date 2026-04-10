@@ -3,7 +3,7 @@
 import { siteConfig } from "@/lib/site/config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Messages } from "@/lib/i18n/types";
-import { localizedHashPath } from "@/lib/i18n/url";
+import { localizedHashPath, pagePath } from "@/lib/i18n/url";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,6 +93,29 @@ export function Hero({
         >
           {hero.sub}
         </motion.p>
+        <motion.nav
+          className="mt-5 flex max-w-xl flex-wrap items-center gap-x-3 gap-y-1 text-sm font-bold text-brand"
+          aria-label="Abonnement et salle Tamaris"
+          initial={reduce ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.14 }}
+        >
+          <Link
+            href={pagePath(locale, "abonnement-gym-dar-bouazza")}
+            className="underline-offset-4 hover:underline"
+          >
+            {hero.linkAbonnement}
+          </Link>
+          <span className="text-zinc-400 dark:text-zinc-600" aria-hidden>
+            ·
+          </span>
+          <Link
+            href={pagePath(locale, "salle-sport-tamaris")}
+            className="underline-offset-4 hover:underline"
+          >
+            {hero.linkFitnessTamaris}
+          </Link>
+        </motion.nav>
         <motion.div
           className="mt-8 flex max-w-2xl flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap"
           initial={reduce ? false : { opacity: 0, y: 16 }}
@@ -100,20 +123,20 @@ export function Hero({
           transition={{ duration: 0.55, delay: 0.18 }}
         >
           <Link
-            href={waTrialHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 sm:py-3.5"
-          >
-            {hero.ctaTrial}
-          </Link>
-          <Link
             href={waJoinHref}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 sm:py-3.5"
           >
             {hero.ctaJoin}
+          </Link>
+          <Link
+            href={waTrialHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition-opacity hover:opacity-90 sm:w-auto sm:px-6 sm:py-3.5"
+          >
+            {hero.ctaTrial}
           </Link>
           <Link
             href={telHref}

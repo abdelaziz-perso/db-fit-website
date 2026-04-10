@@ -46,6 +46,9 @@ export function ContactSection({ contact, waDefaultMessage }: Props) {
                   {siteConfig.address.addressLocality},{" "}
                   {siteConfig.address.addressCountry}
                 </p>
+                <p className="mt-3 max-w-md text-sm font-semibold leading-snug text-zinc-800 dark:text-zinc-200">
+                  {contact.napLine}
+                </p>
               </div>
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500">

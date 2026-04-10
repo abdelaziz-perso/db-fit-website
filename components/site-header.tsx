@@ -28,6 +28,7 @@ const NAV_LINKS = [
   { href: "#espaces", key: "spaces" as const },
   { href: "#activites", key: "activities" as const },
   { href: "#coaching", key: "coaching" as const },
+  { href: "#galerie", key: "gallery" as const },
   { href: "#tarifs", key: "pricing" as const },
   { href: "#temoignages", key: "testimonials" as const },
   { href: "#faq", key: "faq" as const },

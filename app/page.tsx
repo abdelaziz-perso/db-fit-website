@@ -1,21 +1,33 @@
 import { LocaleHomePage } from "@/components/home/LocaleHomePage";
 import { defaultLocale } from "@/lib/i18n/config";
 import { hreflangAlternates, pagePath } from "@/lib/i18n/url";
+import { absoluteUrl } from "@/lib/seo/absolute-url";
+import { buildLocaleMetadata } from "@/lib/seo/build-locale-metadata";
+import { SiteGraphJsonLd } from "@/lib/seo/json-ld";
 import type { Metadata } from "next";
 
-/** Home français à `/` — même schéma que nextjs-portfolio-2026 (pages FR ailleurs sous `/fr/...`). */
+/** Accueil FR sur `/` : métadonnées complètes + JSON-LD (le segment `[locale]` ne wrap pas cette route). */
 export async function generateMetadata(): Promise<Metadata> {
+  const base = buildLocaleMetadata(defaultLocale);
+  const homePath = pagePath(defaultLocale, "");
   return {
+    ...base,
     alternates: {
-      canonical: pagePath(defaultLocale, ""),
+      canonical: homePath,
       languages: hreflangAlternates(""),
     },
     openGraph: {
-      url: pagePath(defaultLocale, ""),
+      ...base.openGraph,
+      url: absoluteUrl(homePath),
     },
   };
 }
 
 export default function RootPage() {
-  return <LocaleHomePage locale={defaultLocale} />;
+  return (
+    <>
+      <SiteGraphJsonLd locale={defaultLocale} />
+      <LocaleHomePage locale={defaultLocale} />
+    </>
+  );
 }

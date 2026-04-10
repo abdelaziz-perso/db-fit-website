@@ -44,12 +44,18 @@ export const siteConfig = {
   /** Pre-filled text for the floating WhatsApp button */
   stickyWhatsappMessage:
     process.env.NEXT_PUBLIC_WA_STICKY_MESSAGE ?? "slt db fit",
-  /** Optional MP4/WebM loop for hero */
-  heroVideoUrl: process.env.NEXT_PUBLIC_HERO_VIDEO_URL ?? "",
+  /**
+   * MP4 en boucle pour le hero. Non défini → `/hero-background.mp4` (diaporama).
+   * Chaîne vide → pas de vidéo (image poster seule).
+   */
+  heroVideoUrl:
+    process.env.NEXT_PUBLIC_HERO_VIDEO_URL !== undefined
+      ? process.env.NEXT_PUBLIC_HERO_VIDEO_URL.trim()
+      : "/hero-background.mp4",
   /** Poster for hero / LCP candidate when no video */
   heroPosterUrl:
-    process.env.NEXT_PUBLIC_HERO_POSTER_URL ??
-    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80&auto=format&fit=crop",
+    process.env.NEXT_PUBLIC_HERO_POSTER_URL?.trim() ||
+    "/db-photos/image00028.webp",
   address: {
     streetAddress: "Ansari, Dar Bouazza",
     addressLocality: "Casablanca",

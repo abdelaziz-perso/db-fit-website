@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { getMessages } from "@/lib/i18n/get-messages";
 import { defaultLocale } from "@/lib/i18n/config";
 import { siteConfig } from "@/lib/site/config";
 
@@ -19,18 +18,24 @@ const geistMono = Geist_Mono({
   preload: false,
 });
 
-const defaultMessages = getMessages(defaultLocale);
-
 const base = new URL(siteConfig.siteUrl);
 
+/** Valeurs globales uniquement — titre / OG / Twitter par route (`app/page`, `app/[locale]/layout`). */
 export const metadata: Metadata = {
   metadataBase: base,
-  title: defaultMessages.meta.title,
-  description: defaultMessages.meta.description,
   applicationName: siteConfig.brand,
-  /** Favicon ≥48×48 pour Google Search ; @see https://developers.google.com/search/docs/appearance/favicon-in-search */
+  /**
+   * Favicons explicites (Google Search exige ≥48×48 + déclaration dans le HTML).
+   * Fichiers : `public/favicon.ico`, `public/favicon-48x48.png` (+ liens dupliqués dans <head>).
+   */
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      {
+        url: "/favicon-48x48.png",
+        type: "image/png",
+        sizes: "48x48",
+      },
       { url: "/icon.png", type: "image/png", sizes: "48x48" },
       { url: "/apple-icon.png", type: "image/png", sizes: "180x180" },
     ],
@@ -55,33 +60,6 @@ export const metadata: Metadata = {
         },
       }
     : {}),
-  openGraph: {
-    type: "website",
-    locale: "fr_MA",
-    url: base,
-    siteName: siteConfig.brand,
-    title: defaultMessages.meta.ogTitle ?? defaultMessages.meta.title,
-    description:
-      defaultMessages.meta.ogDescription ?? defaultMessages.meta.description,
-    images: [
-      {
-        url: siteConfig.heroPosterUrl,
-        width: 1200,
-        height: 630,
-        alt: defaultMessages.meta.title,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: defaultMessages.meta.ogTitle ?? defaultMessages.meta.title,
-    description:
-      defaultMessages.meta.ogDescription ?? defaultMessages.meta.description,
-    images: [siteConfig.heroPosterUrl],
-  },
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function RootLayout({
@@ -96,6 +74,14 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full min-w-0 overflow-x-clip antialiased`}
     >
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="48x48"
+          href="/favicon-48x48.png"
+        />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="light")document.documentElement.classList.remove("dark");else document.documentElement.classList.add("dark");}catch(e){document.documentElement.classList.add("dark");}})();`,

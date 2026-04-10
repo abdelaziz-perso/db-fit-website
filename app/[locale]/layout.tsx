@@ -1,7 +1,5 @@
-import { keywordsForLocale } from "@/lib/seo/keywords";
+import { buildLocaleMetadata } from "@/lib/seo/build-locale-metadata";
 import { SiteGraphJsonLd } from "@/lib/seo/json-ld";
-import { siteConfig } from "@/lib/site/config";
-import { getMessages } from "@/lib/i18n/get-messages";
 import {
   isLocale,
   localeDirection,
@@ -19,35 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params;
   if (!isLocale(raw)) return {};
   const locale = raw as Locale;
-  const m = getMessages(locale);
-  const ogLocale =
-    locale === "fr" ? "fr_MA" : locale === "ar" ? "ar_MA" : "en_US";
-
-  return {
-    title: m.meta.title,
-    description: m.meta.description,
-    keywords: keywordsForLocale(locale),
-    openGraph: {
-      type: "website",
-      locale: ogLocale,
-      siteName: siteConfig.brand,
-      title: m.meta.ogTitle ?? m.meta.title,
-      description: m.meta.ogDescription ?? m.meta.description,
-      images: [
-        {
-          url: siteConfig.heroPosterUrl,
-          width: 1200,
-          height: 630,
-          alt: m.meta.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: m.meta.ogTitle ?? m.meta.title,
-      description: m.meta.ogDescription ?? m.meta.description,
-    },
-  };
+  return buildLocaleMetadata(locale);
 }
 
 export function generateStaticParams() {

@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import { absoluteUrl } from "@/lib/seo/absolute-url";
 import { pagePath } from "@/lib/i18n/url";
 import { siteConfig } from "@/lib/site/config";
 
@@ -10,21 +11,21 @@ function descriptions(locale: string): { business: string; org: string } {
   if (locale === "fr") {
     return {
       business:
-        "Salle de sport à Dar Bouazza (Ansari) — espaces femmes, hommes et mixte, 7j/7. Gym, fitness et coaching.",
-      org: "DB FIT — organisme exploitant une salle de sport et club de fitness à Dar Bouazza, Casablanca.",
+        "DB FIT — salle de sport et gym à Dar Bouazza (Ansari), proche Tamaris : musculation, cardio, coaching sur place. Ouvert 7j/7.",
+      org: "DB FIT — salle de sport, club de fitness et centre de coaching à Ansari, Dar Bouazza (Grand Casablanca).",
     };
   }
   if (locale === "ar") {
     return {
       business:
-        "نادي رياضي في دار بوعزة (أنصاري) — أقسام نساء ورجال ومختلط، مفتوح طوال الأسبوع.",
-      org: "DB FIT — منشأة رياضية ونادي لياقة في دار بوعزة، كازابلانكا.",
+        "DB FIT — صالة رياضية في دار بوعزة (أنصاري) قرب تماريس: حديد، كارديو، تدريب. مفتوح كل يوم.",
+      org: "DB FIT — منشأة رياضية ونادي لياقة في أنصاري، دار بوعزة.",
     };
   }
   return {
     business:
-      "Gym in Dar Bouazza (Ansari) — women’s, men’s, and mixed training zones. Fitness club open 7 days with coaching.",
-    org: "DB FIT — fitness organization operating a gym and health club in Dar Bouazza, Casablanca, Morocco.",
+      "DB FIT — gym & fitness in Dar Bouazza (Ansari), near Tamaris: strength, cardio, on-site coaching. Open 7 days.",
+    org: "DB FIT — fitness club and coaching gym in Ansari, Dar Bouazza, Morocco.",
   };
 }
 
@@ -55,7 +56,10 @@ export function SiteGraphJsonLd({ locale }: Props) {
 
   const sameAs = [siteConfig.instagramUrl, siteConfig.facebookUrl];
   const logoUrl = `${base}/logo-db-fit.jpg`;
-  const mapsUrl = "https://www.google.com/maps?q=Dar+Bouazza+Ansari+Casablanca";
+  const mapsUrl = siteConfig.googleMapsOpenUrl;
+  const heroImageAbs = siteConfig.heroPosterUrl.startsWith("http")
+    ? siteConfig.heroPosterUrl
+    : absoluteUrl(siteConfig.heroPosterUrl);
 
   const organization = {
     "@type": "Organization" as const,
@@ -65,7 +69,7 @@ export function SiteGraphJsonLd({ locale }: Props) {
     logo: logoUrl,
     sameAs,
     description: org,
-    image: siteConfig.heroPosterUrl,
+    image: heroImageAbs,
     address: { ...postalAddress },
   };
 
@@ -79,10 +83,23 @@ export function SiteGraphJsonLd({ locale }: Props) {
     inLanguage: ["fr-MA", "en", "ar-MA"],
   };
 
+  const publicBusinessName =
+    loc === "fr"
+      ? "DB FIT – Salle de sport Dar Bouazza Tamaris"
+      : loc === "ar"
+        ? "DB FIT — صالة رياضية دار بوعزة · تماريس"
+        : "DB FIT — Gym Dar Bouazza & Tamaris";
+
   const localBusiness = {
     "@type": ["Gym", "LocalBusiness", "SportsActivityLocation", "HealthClub"] as const,
     "@id": bizId,
-    name: siteConfig.brand,
+    name: publicBusinessName,
+    alternateName: [
+      siteConfig.brand,
+      "DB FIT Dar Bouazza",
+      "DB FIT Tamaris",
+      "DB FIT Ansari",
+    ],
     parentOrganization: { "@id": orgId },
     address: { ...postalAddress },
     hasMap: mapsUrl,
@@ -90,7 +107,7 @@ export function SiteGraphJsonLd({ locale }: Props) {
     url: pageUrl,
     telephone: `+${siteConfig.phoneE164}`,
     openingHours: "Mo-Su",
-    image: siteConfig.heroPosterUrl,
+    image: heroImageAbs,
     geo: {
       "@type": "GeoCoordinates" as const,
       latitude: siteConfig.geo.latitude,
@@ -99,10 +116,26 @@ export function SiteGraphJsonLd({ locale }: Props) {
     areaServed: [
       { "@type": "Place" as const, name: "Dar Bouazza" },
       { "@type": "Place" as const, name: "Tamaris" },
-      { "@type": "City" as const, name: "Casablanca" },
+      { "@type": "Place" as const, name: "Ansari" },
     ],
     sameAs,
     priceRange: "$$",
+    keywords:
+      "gym dar bouazza, salle de sport dar bouazza, fitness tamaris, coaching dar bouazza",
+    amenityFeature: [
+      "Musculation",
+      "Cardio",
+      "Coaching sportif",
+      "Espace femmes",
+      "Espace hommes",
+      "Espace mixte",
+    ],
+    knowsAbout: [
+      "Fitness",
+      "Musculation",
+      "Cardio training",
+      "Coaching personnel",
+    ],
   };
 
   const payload = {

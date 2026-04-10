@@ -1,6 +1,7 @@
 import { Activities } from "@/components/home/Activities";
 import { Coaching } from "@/components/home/Coaching";
 import { Contact } from "@/components/home/Contact";
+import { Gallery } from "@/components/home/Gallery";
 import { Faq } from "@/components/home/Faq";
 import { Features } from "@/components/home/Features";
 import { Hero } from "@/components/home/Hero";
@@ -61,6 +62,7 @@ export async function LocaleHomePage({ locale }: Props) {
         />
         <Pricing pricing={m.pricing} waHref={waPricing} />
         <Testimonials testimonials={m.testimonials} />
+        <Gallery gallery={m.gallery} />
         <Faq locale={locale} faq={m.faq} />
         <Contact
           contact={m.contact}
@@ -115,6 +117,12 @@ export async function LocaleHomePage({ locale }: Props) {
             className="inline-flex min-h-11 items-center px-1 hover:text-brand"
           >
             {m.footer.seoSalleSport}
+          </Link>
+          <Link
+            href={pagePath(locale, "salle-sport-tamaris")}
+            className="inline-flex min-h-11 items-center px-1 hover:text-brand"
+          >
+            {m.footer.seoTamaris}
           </Link>
           <Link
             href={pagePath(locale, "abonnement-gym-dar-bouazza")}

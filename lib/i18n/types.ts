@@ -31,6 +31,8 @@ export type Messages = {
     activities: string;
     /** Ancre #coaching (équipe + réservation). */
     coaching: string;
+    /** Ancre #galerie */
+    gallery: string;
     pricing: string;
     testimonials: string;
     /** Libellé lien FAQ (#faq). */
@@ -71,6 +73,9 @@ export type Messages = {
     sub: string;
     /** Texte alternatif image / poster hero (SEO & accessibilité). */
     heroImageAlt: string;
+    /** Liens maillage interne (pilier abonnement + Tamaris). */
+    linkAbonnement: string;
+    linkFitnessTamaris: string;
     ctaJoin: string;
     ctaTrial: string;
     ctaWhatsapp: string;
@@ -172,6 +177,16 @@ export type Messages = {
     title: string;
     items: Testimonial[];
   };
+  /** Carrousel photos salle (fichiers `public/db-photos/*.webp`). */
+  gallery: {
+    kicker: string;
+    title: string;
+    intro: string;
+    /** Préfixe texte alternatif (numéro ajouté côté UI). */
+    imageAlt: string;
+    /** Bouton fermer l’agrandissement plein écran. */
+    closeLightbox: string;
+  };
   finalCta: {
     title: string;
     urgency: string;
@@ -191,6 +206,8 @@ export type Messages = {
     mapTitle: string;
     /** Lien sous la carte (ouvre Google Maps dans un nouvel onglet). */
     mapOpenGoogleLabel: string;
+    /** Ligne NAP renforcée (Dar Bouazza · Tamaris · Ansari). */
+    napLine: string;
     formTitle: string;
     formName: string;
     formPhone: string;
@@ -213,6 +230,7 @@ export type Messages = {
     seoSalleFemmes: string;
     seoFitnessMixte: string;
     seoSalleSport: string;
+    seoTamaris: string;
     seoAbonnement: string;
     seoProgrammeDebutant: string;
   };

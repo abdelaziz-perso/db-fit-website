@@ -13,6 +13,28 @@
   }
 }
 
+/* Défilement horizontal infini — section galerie (pause si réduction des animations). */
+@keyframes gallery-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.gallery-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: gallery-marquee 80s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-marquee-track {
+    animation: none;
+  }
+}
+
 :root {
   --background: #fafafa;
   --foreground: #18181b;
