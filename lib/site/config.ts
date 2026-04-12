@@ -25,9 +25,12 @@ const geoCoords = {
   longitude: -7.82,
 } as const;
 
-/** Carte Google Maps (embed) — DB FIT, Ansari Dar Bouazza. Surcharge : NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL */
+/**
+ * Carte intégrée — même établissement que le lien « Ouvrir dans Google Maps » (cid fiche DB FIT).
+ * Surcharge : `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL`
+ */
 const defaultGoogleMapsEmbedUrl =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12201.410255284265!2d-7.8224902915411745!3d33.5161281964844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d3d972a05fa9%3A0x4b518d5bdc1abf40!2sDB%20FIT!5e0!3m2!1sen!2sma!4v1775734788495!5m2!1sen!2sma";
+  "https://www.google.com/maps?cid=5427274451632439104&hl=fr&gl=MA&output=embed";
 
 export const siteConfig = {
   brand: "DB FIT",
@@ -70,11 +73,12 @@ export const siteConfig = {
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() ||
     defaultGoogleMapsEmbedUrl,
   /**
-   * Lien « Ouvrir dans Google Maps » quand la carte est activée.
+   * Lien « Ouvrir dans Google Maps » (fiche lieu officielle, pas une recherche texte).
+   * Surcharge : `NEXT_PUBLIC_GOOGLE_MAPS_URL`
    */
   googleMapsOpenUrl:
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL?.trim() ||
-    "https://www.google.com/maps/search/?api=1&query=DB%20FIT%20Dar%20Bouazza",
+    "https://maps.app.goo.gl/Y8pgQkXZWvdnC6kWA",
   instagramUrl: defaultInstagram,
   facebookUrl: defaultFacebook,
   /** Réseaux Mehdi — si vides, même page que le club (icônes toujours visibles). */

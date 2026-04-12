@@ -1,4 +1,3 @@
-import { BookCoachSection } from "@/components/book-coach-section";
 import { CoachesSection } from "@/components/coaches-section";
 import { Reveal } from "@/components/motion/reveal";
 import type { Messages } from "@/lib/i18n/types";
@@ -6,27 +5,14 @@ import Link from "next/link";
 
 type Props = {
   coaches: Messages["coachesSection"];
-  bookCoach: Messages["bookCoach"];
   lead: Messages["coachingLead"];
   quickWaHref: string;
-  mailFeedback: {
-    formSending: string;
-    formSuccess: string;
-    formError: string;
-    formWaPopupBlocked: string;
-  };
 };
 
 /**
- * Bloc conversion : présentation équipe + réservation coach (WhatsApp).
+ * Bloc conversion : présentation équipe + contact coaching (WhatsApp).
  */
-export function Coaching({
-  coaches,
-  bookCoach,
-  lead,
-  quickWaHref,
-  mailFeedback,
-}: Props) {
+export function Coaching({ coaches, lead, quickWaHref }: Props) {
   return (
     <section
       id="coaching"
@@ -58,11 +44,6 @@ export function Coaching({
         </Reveal>
 
         <CoachesSection coaches={coaches} embedded />
-        <BookCoachSection
-          bookCoach={bookCoach}
-          embedded
-          mailFeedback={mailFeedback}
-        />
       </div>
     </section>
   );

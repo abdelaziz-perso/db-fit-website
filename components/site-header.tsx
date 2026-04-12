@@ -30,7 +30,7 @@ const NAV_LINKS = [
   { href: "#coaching", key: "coaching" as const },
   { href: "#galerie", key: "gallery" as const },
   { href: "#tarifs", key: "pricing" as const },
-  { href: "#temoignages", key: "testimonials" as const },
+  { href: "#horaires", key: "horaires" as const },
   { href: "#faq", key: "faq" as const },
 ] as const;
 

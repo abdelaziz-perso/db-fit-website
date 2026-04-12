@@ -4,12 +4,12 @@ import { siloPagesEn } from "./silo-pages-en";
 export const en: Messages = {
   meta: {
     title:
-      "DB FIT — Gym in Dar Bouazza (Tamaris · Ansari) | Strength, cardio & coaching",
+      "Dar Bouazza sports club — DB FIT (Tamaris · Ansari) | Gym, strength & coaching",
     description:
-      "Gym & fitness in Dar Bouazza near Tamaris (Ansari): women’s, men’s & mixed areas, strength, cardio & coaching. Membership & trial — WhatsApp.",
-    ogTitle: "DB FIT — Gym Dar Bouazza & Tamaris | Fitness club",
+      "Sports club in Dar Bouazza (Ansari), near Tamaris: women’s, men’s & mixed areas, strength, cardio & coaching. Membership & trial — WhatsApp.",
+    ogTitle: "Dar Bouazza sports club — DB FIT | Tamaris, Ansari, coaching",
     ogDescription:
-      "Join DB FIT in Ansari: close to Tamaris, modern equipment, on-floor coaching. Open 7 days.",
+      "Your Dar Bouazza gym & sports club (Ansari): near Tamaris, modern kit, on-floor coaching. Open 7 days.",
   },
   features: {
     kicker: "Why DB FIT",
@@ -45,7 +45,7 @@ export const en: Messages = {
       {
         question: "Do you offer personal coaching?",
         answer:
-          "Yes — in-gym sessions, tailored follow-up, and booking with our coaches via the form or WhatsApp.",
+          "Yes — in-gym sessions, tailored follow-up, and booking with our coaches on WhatsApp.",
       },
       {
         question: "Is it far from Tamaris?",
@@ -63,7 +63,7 @@ export const en: Messages = {
     kicker: "Coaching",
     title: "The team & your bookings",
     intro:
-      "Meet our coaches, then choose your session format — we confirm slots on WhatsApp.",
+      "Meet our coaches and message us on WhatsApp for coaching or a trial — we’ll confirm slots with you.",
     quickWaLabel: "Quick question on WhatsApp",
     quickWaMessage:
       "Hi DB FIT, I’d like info on coaching / a trial session in Dar Bouazza.",
@@ -76,7 +76,7 @@ export const en: Messages = {
     coaching: "Coaching",
     gallery: "Gallery",
     pricing: "Pricing",
-    testimonials: "Reviews",
+    horaires: "Hours",
     faq: "FAQ",
     contact: "Contact",
     themeToLight: "Switch to light mode",
@@ -88,10 +88,10 @@ export const en: Messages = {
   },
   hero: {
     kicker: "DB FIT · Dar Bouazza — Tamaris · Ansari",
-    headline: "Gym in Dar Bouazza — fitness near Tamaris",
-    sub: "Join DB FIT today: women’s, men’s & mixed zones, strength, cardio & coaching in Ansari. Open 7 days — sign up or book a trial on WhatsApp.",
+    headline: "Dar Bouazza sports club — gym & fitness near Tamaris",
+    sub: "Sports club in Dar Bouazza (Ansari): join DB FIT — women’s, men’s & mixed zones, strength, cardio & coaching. Open 7 days — sign up or book a trial on WhatsApp.",
     heroImageAlt:
-      "DB FIT — gym & fitness club in Dar Bouazza (Ansari), near Tamaris",
+      "Dar Bouazza sports club — DB FIT gym in Ansari, near Tamaris",
     linkAbonnement: "Gym membership Dar Bouazza",
     linkFitnessTamaris: "Fitness Tamaris",
     ctaJoin: "Sign up now",
@@ -176,44 +176,6 @@ export const en: Messages = {
       },
     ],
   },
-  bookCoach: {
-    kicker: "Coaching",
-    title: "Book a coach",
-    intro:
-      "Choose how you want to train — we’ll reply on WhatsApp to confirm slots and options.",
-    modeLabel: "Session format",
-    modeHome: "At home",
-    modeOnline: "Online",
-    modeGym: "At the gym",
-    modeOther: "Other",
-    durationLabel: "Session length",
-    durationOptions: [
-      { id: "60", label: "1 hour" },
-      { id: "30", label: "30 minutes" },
-      { id: "45", label: "45 minutes" },
-      { id: "90", label: "1 h 30" },
-      { id: "120", label: "2 hours" },
-    ],
-    coachLabel: "Coach",
-    coachOptions: [
-      { id: "any", label: "No preference" },
-      { id: "mehdi", label: "Mehdi", subtitle: "Strength & bodybuilding coach" },
-      {
-        id: "raja",
-        label: "Raja Lidali",
-        subtitle: "Personal trainer · Coach personnel",
-      },
-    ],
-    detailsOptionalLabel: "Details (optional)",
-    detailsOptionalPlaceholder: "Preferred time, goal…",
-    otherDetailsLabel: "Describe your request",
-    otherDetailsPlaceholder:
-      "E.g. Wednesday mornings, multiple sessions, specific goal, different location…",
-    formName: "Name",
-    formPhone: "Phone",
-    formSubmit: "Send via WhatsApp",
-    formWaPrefix: "Hi DB FIT, I’d like to book a coach",
-  },
   pricing: {
     kicker: "Pricing",
     title: "Membership options",
@@ -255,28 +217,6 @@ export const en: Messages = {
     waMessage:
       "Hi DB FIT, I’d like to know your membership options and pricing.",
   },
-  testimonials: {
-    kicker: "Testimonials",
-    title: "Members who progress at DB FIT",
-    items: [
-      {
-        quote:
-          "Finally a gym near Tamaris with real women-only slots. Great vibe.",
-        name: "Sanae",
-        role: "Member · Dar Bouazza",
-      },
-      {
-        quote: "New equipment, coaches present. Stronger in 3 months.",
-        name: "Youssef",
-        role: "Member · Casablanca",
-      },
-      {
-        quote: "The mixed functional area is electric. We push each other.",
-        name: "Imane",
-        role: "Member · Ansari",
-      },
-    ],
-  },
   gallery: {
     kicker: "Gallery",
     title: "The gym in pictures",
@@ -284,6 +224,8 @@ export const en: Messages = {
       "A few shots of our spaces and atmosphere at DB FIT — scrolls automatically.",
     imageAlt: "DB FIT Dar Bouazza — photo",
     closeLightbox: "Close image",
+    rotateLeft: "Rotate image counter-clockwise",
+    rotateRight: "Rotate image clockwise",
   },
   finalCta: {
     title: "Join DB FIT today and start your transformation.",
@@ -305,7 +247,7 @@ export const en: Messages = {
     mapTitle: "Map — Dar Bouazza (Ansari)",
     mapOpenGoogleLabel: "Open in Google Maps",
     napLine:
-      "Ansari, Dar Bouazza — near Tamaris · Strength, cardio & coaching",
+      "Dar Bouazza sports club — Ansari, near Tamaris · Strength, cardio & coaching",
     formTitle: "Get a callback",
     formName: "First name",
     formPhone: "Phone",
@@ -319,7 +261,7 @@ export const en: Messages = {
       "Your message was emailed, but WhatsApp was blocked by the browser. Allow pop-ups for this site.",
   },
   footer: {
-    line: "DB FIT — gym in Ansari, Dar Bouazza.",
+    line: "DB FIT — Dar Bouazza sports club (Ansari, near Tamaris).",
     rights: "All rights reserved.",
     createdByPrefix: "Created by",
     backHome: "← Back to home",
@@ -338,16 +280,23 @@ export const en: Messages = {
     heading: "Women, men & mixed time slots",
     intro:
       "At DB FIT, your comfort and privacy come first. Dedicated slots for women and men, plus mixed hours, so everyone can train with confidence.",
-    imageAlt:
-      "DB FIT schedule poster: women, men, and mixed hours in Dar Bouazza",
     tablistAria: "Period",
-    weekTab: "Mon → Sat",
+    weekTab: "Monday to Saturday",
     sundayTab: "Sunday",
-    weekDescription: "Women, men, and mixed slots",
-    sundayDescription: "Specific Sunday slots",
+    weekDescription: "",
+    sundayDescription: "",
     spaceWomen: "Women only",
     spaceMen: "Men only",
     spaceMixed: "Mixed",
+    weekSlots: {
+      women: ["9 a.m. – 11 a.m. & 6 p.m. – 8 p.m."],
+      mixed: ["1 p.m. – 6 p.m."],
+      men: ["11 a.m. – 1 p.m. & 8 p.m. – 11 p.m."],
+    },
+    sundaySlots: {
+      men: ["10 a.m. – 12:30 p.m."],
+      women: ["12:30 p.m. – 3 p.m."],
+    },
   },
   siloPages: siloPagesEn,
 };

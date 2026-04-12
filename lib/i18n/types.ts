@@ -9,12 +9,6 @@ export type PricingCard = {
   highlight?: boolean;
 };
 
-export type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-};
-
 export type Messages = {
   meta: {
     title: string;
@@ -34,7 +28,8 @@ export type Messages = {
     /** Ancre #galerie */
     gallery: string;
     pricing: string;
-    testimonials: string;
+    /** Ancre #horaires (créneaux femmes / hommes / mixte). */
+    horaires: string;
     /** Libellé lien FAQ (#faq). */
     faq: string;
     contact: string;
@@ -59,7 +54,7 @@ export type Messages = {
     heading: string;
     items: { question: string; answer: string }[];
   };
-  /** En-tête de la section coaching fusionnée (coachs + formulaire). */
+  /** En-tête de la section coaching (coachs + CTA WhatsApp). */
   coachingLead: {
     kicker: string;
     title: string;
@@ -140,28 +135,6 @@ export type Messages = {
       imageAlt: string;
     }[];
   };
-  bookCoach: {
-    kicker: string;
-    title: string;
-    intro: string;
-    modeLabel: string;
-    modeHome: string;
-    modeOnline: string;
-    modeGym: string;
-    modeOther: string;
-    durationLabel: string;
-    durationOptions: { id: string; label: string }[];
-    coachLabel: string;
-    coachOptions: { id: string; label: string; subtitle?: string }[];
-    detailsOptionalLabel: string;
-    detailsOptionalPlaceholder: string;
-    otherDetailsLabel: string;
-    otherDetailsPlaceholder: string;
-    formName: string;
-    formPhone: string;
-    formSubmit: string;
-    formWaPrefix: string;
-  };
   pricing: {
     kicker: string;
     title: string;
@@ -172,11 +145,6 @@ export type Messages = {
     cta: string;
     waMessage: string;
   };
-  testimonials: {
-    kicker: string;
-    title: string;
-    items: Testimonial[];
-  };
   /** Carrousel photos salle (fichiers `public/db-photos/*.webp`). */
   gallery: {
     kicker: string;
@@ -186,6 +154,9 @@ export type Messages = {
     imageAlt: string;
     /** Bouton fermer l’agrandissement plein écran. */
     closeLightbox: string;
+    /** Pivoter l’image dans la lightbox (sens antihoraire / horaire). */
+    rotateLeft: string;
+    rotateRight: string;
   };
   finalCta: {
     title: string;
@@ -238,7 +209,6 @@ export type Messages = {
     badge: string;
     heading: string;
     intro: string;
-    imageAlt: string;
     tablistAria: string;
     weekTab: string;
     sundayTab: string;
@@ -247,6 +217,17 @@ export type Messages = {
     spaceWomen: string;
     spaceMen: string;
     spaceMixed: string;
+    /** Créneaux lun–sam : femmes, mixte, hommes (ordre d’affichage). */
+    weekSlots: {
+      women: string[];
+      mixed: string[];
+      men: string[];
+    };
+    /** Créneaux dimanche : hommes, femmes (ordre d’affichage). */
+    sundaySlots: {
+      men: string[];
+      women: string[];
+    };
   };
   siloPages: SiloPages;
 };

@@ -2,7 +2,6 @@
 
 import type { LocalizedDaySchedule } from "@/lib/data/horaires";
 import type { Messages } from "@/lib/i18n/types";
-import Image from "next/image";
 import { useState } from "react";
 
 type Props = {
@@ -85,32 +84,19 @@ export function HorairesSection({ horaires, schedules }: Props) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(245,233,66,0.12),transparent)]" />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="mb-3 inline-block border-2 border-[#f5e942] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#f5e942]">
-              {horaires.badge}
-            </p>
-            <h2
-              id="horaires-heading"
-              className="text-3xl font-black uppercase tracking-tight text-zinc-900 dark:text-white md:text-4xl"
-            >
-              {horaires.heading}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-              {horaires.intro}
-            </p>
-          </div>
-
-          <figure className="relative w-full max-w-md shrink-0 overflow-hidden rounded-xl border border-zinc-200 shadow-xl dark:border-white/10 lg:max-w-sm">
-            <Image
-              src="/horaires-db-fit.png"
-              alt={horaires.imageAlt}
-              width={800}
-              height={1000}
-              className="h-auto w-full object-cover"
-              sizes="(max-width: 1024px) 100vw, 320px"
-            />
-          </figure>
+        <div className="mb-10 max-w-2xl">
+          <p className="mb-3 inline-block bg-[#f5e942] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-black">
+            {horaires.badge}
+          </p>
+          <h2
+            id="horaires-heading"
+            className="text-3xl font-black uppercase tracking-tight text-zinc-900 dark:text-white md:text-4xl"
+          >
+            {horaires.heading}
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+            {horaires.intro}
+          </p>
         </div>
 
         <div
@@ -150,9 +136,11 @@ export function HorairesSection({ horaires, schedules }: Props) {
             hidden={active !== s.id}
             className={active === s.id ? "block" : "hidden"}
           >
-            <p className="mb-6 text-sm font-medium text-zinc-600 dark:text-zinc-500">
-              {s.description}
-            </p>
+            {s.description.trim() ? (
+              <p className="mb-6 text-sm font-medium text-zinc-600 dark:text-zinc-500">
+                {s.description}
+              </p>
+            ) : null}
             <SchedulePanel schedule={s} />
           </div>
         ))}

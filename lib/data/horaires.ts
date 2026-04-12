@@ -9,32 +9,6 @@ type BlockDef = {
   slots: string[];
 };
 
-const weekBlocks: BlockDef[] = [
-  {
-    kind: "women",
-    slots: ["09:00 – 11:00", "18:00 – 20:00"],
-  },
-  {
-    kind: "mixed",
-    slots: ["13:00 – 18:00"],
-  },
-  {
-    kind: "men",
-    slots: ["11:00 – 13:00", "20:00 – 23:00"],
-  },
-];
-
-const sundayBlocks: BlockDef[] = [
-  {
-    kind: "men",
-    slots: ["10:00 – 12:30"],
-  },
-  {
-    kind: "women",
-    slots: ["12:30 – 15:00"],
-  },
-];
-
 function labelForKind(h: Messages["horaires"], kind: SpaceKind): string {
   switch (kind) {
     case "women":
@@ -58,6 +32,17 @@ export type LocalizedDaySchedule = {
 };
 
 export function getLocalizedSchedules(h: Messages["horaires"]): LocalizedDaySchedule[] {
+  const weekBlocks: BlockDef[] = [
+    { kind: "women", slots: h.weekSlots.women },
+    { kind: "mixed", slots: h.weekSlots.mixed },
+    { kind: "men", slots: h.weekSlots.men },
+  ];
+
+  const sundayBlocks: BlockDef[] = [
+    { kind: "men", slots: h.sundaySlots.men },
+    { kind: "women", slots: h.sundaySlots.women },
+  ];
+
   return [
     {
       id: "week",

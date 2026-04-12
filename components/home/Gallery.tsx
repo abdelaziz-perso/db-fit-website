@@ -16,20 +16,37 @@ type Props = {
   gallery: Messages["gallery"];
 };
 
+/** Mobile : vignettes moins hautes (évite bandeau « trop long » sur téléphone). */
 const slideClassName =
-  "relative h-48 w-72 shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 shadow-lg sm:h-56 sm:w-80 dark:border-white/10 dark:bg-zinc-900";
+  "relative h-36 w-56 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 shadow-md sm:h-48 sm:w-72 sm:rounded-2xl sm:shadow-lg md:h-56 md:w-80 dark:border-white/10 dark:bg-zinc-900";
+
+const lightboxToolbarBtnClass =
+  "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-white/30 bg-zinc-900/80 text-white transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
 /**
- * Bandeau photos WebP — défilement horizontal CSS ; clic → aperçu plein écran.
+ * Bandeau photos WebP — défilement horizontal CSS ; clic → aperçu plein écran (rotation ±90°).
  */
 export function Gallery({ gallery }: Props) {
   const [lightbox, setLightbox] = useState<{
     src: string;
     index: number;
   } | null>(null);
+  const [rotation, setRotation] = useState(0);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
-  const close = useCallback(() => setLightbox(null), []);
+  const close = useCallback(() => {
+    setLightbox(null);
+    setRotation(0);
+  }, []);
+
+  const open = useCallback((src: string, index: number) => {
+    setRotation(0);
+    setLightbox({ src, index });
+  }, []);
+
+  const rotateBy = useCallback((delta: number) => {
+    setRotation((r) => (r + delta + 360) % 360);
+  }, []);
 
   useEffect(() => {
     if (!lightbox) return;
@@ -48,9 +65,7 @@ export function Gallery({ gallery }: Props) {
     if (lightbox) closeBtnRef.current?.focus();
   }, [lightbox]);
 
-  const open = (src: string, index: number) => {
-    setLightbox({ src, index });
-  };
+  const sideways = rotation % 180 !== 0;
 
   const renderThumb = (
     src: string,
@@ -75,7 +90,7 @@ export function Gallery({ gallery }: Props) {
           }
           fill
           className="object-cover"
-          sizes="(max-width: 640px) 75vw, 320px"
+          sizes="(max-width: 640px) 60vw, 320px"
           loading="lazy"
           decoding="async"
         />
@@ -101,24 +116,63 @@ export function Gallery({ gallery }: Props) {
             e.stopPropagation();
             close();
           }}
-          className="absolute right-4 top-4 z-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-white/30 bg-zinc-900/80 text-white transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className={`${lightboxToolbarBtnClass} absolute right-4 top-4 z-10`}
           aria-label={gallery.closeLightbox}
         >
           <CloseIcon className="h-6 w-6" />
         </button>
+
         <div
-          className="flex max-h-[90vh] max-w-[min(100vw-2rem,1200px)] items-center justify-center"
+          className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-3 sm:bottom-8"
+          role="group"
+          aria-label={`${gallery.rotateLeft} · ${gallery.rotateRight}`}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              rotateBy(-90);
+            }}
+            className={lightboxToolbarBtnClass}
+            aria-label={gallery.rotateLeft}
+          >
+            <RotateCcwIcon className="h-6 w-6" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              rotateBy(90);
+            }}
+            className={lightboxToolbarBtnClass}
+            aria-label={gallery.rotateRight}
+          >
+            <RotateCwIcon className="h-6 w-6" />
+          </button>
+        </div>
+
+        <div
+          className="flex max-h-[85dvh] max-w-[min(100vw-1rem,1200px)] items-center justify-center overflow-auto px-2 pb-20 pt-14 sm:max-h-[92vh] sm:pb-24"
           onClick={(e) => e.stopPropagation()}
         >
-          <Image
-            src={lightbox.src}
-            alt={`${gallery.imageAlt} ${lightbox.index + 1}`}
-            width={2400}
-            height={1600}
-            className="max-h-[90vh] w-auto max-w-full object-contain"
-            sizes="95vw"
-            priority
-          />
+          <div
+            style={{ transform: `rotate(${rotation}deg)` }}
+            className="origin-center transition-transform duration-300 ease-out will-change-transform"
+          >
+            <Image
+              src={lightbox.src}
+              alt={`${gallery.imageAlt} ${lightbox.index + 1}${rotation ? `, ${rotation}°` : ""}`}
+              width={2400}
+              height={1600}
+              className={
+                sideways
+                  ? "max-h-[min(88vw,85dvh)] max-w-[min(88dvh,96vw)] object-contain sm:max-h-[min(90vw,88vh)] sm:max-w-[min(90vh,96vw)]"
+                  : "max-h-[min(72dvh,92vw)] w-auto max-w-full object-contain sm:max-h-[88vh]"
+              }
+              sizes="95vw"
+              priority
+            />
+          </div>
         </div>
       </div>,
       document.body,
@@ -182,6 +236,42 @@ function CloseIcon({ className }: { className?: string }) {
       aria-hidden
     >
       <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  );
+}
+
+function RotateCcwIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5" />
+    </svg>
+  );
+}
+
+function RotateCwIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
     </svg>
   );
 }

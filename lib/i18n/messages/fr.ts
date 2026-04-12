@@ -4,13 +4,13 @@ import { siloPagesFr } from "./silo-pages-fr";
 export const fr: Messages = {
   meta: {
     title:
-      "DB FIT — Gym & salle de sport à Dar Bouazza (Tamaris · Ansari) | Musculation & coaching",
+      "Salle de sport Dar Bouazza — DB FIT (Tamaris · Ansari) | Gym, musculation & coaching",
     description:
-      "Gym à Dar Bouazza, près de Tamaris (Ansari) : salle de sport femmes/hommes/mixte, musculation, cardio, coaching. Abonnement & séance d’essai — WhatsApp.",
+      "Salle de sport Dar Bouazza à Ansari, près de Tamaris : espaces femmes, hommes et mixte, musculation, cardio, coaching. Abonnement & séance d’essai — WhatsApp.",
     ogTitle:
-      "DB FIT — Salle de sport Dar Bouazza Tamaris | Fitness & coaching",
+      "Salle de sport Dar Bouazza — DB FIT | Tamaris, Ansari, coaching",
     ogDescription:
-      "Rejoignez la gym DB FIT à Ansari : proche Tamaris, équipements modernes, coaching sur place. Ouvert 7j/7.",
+      "Votre salle de sport Dar Bouazza (Ansari) : proche Tamaris, équipements modernes, coaching sur place. Ouvert 7j/7.",
   },
   features: {
     kicker: "Pourquoi DB FIT",
@@ -46,7 +46,7 @@ export const fr: Messages = {
       {
         question: "Proposez-vous du coaching sportif ?",
         answer:
-          "Oui : séances à la salle, suivi personnalisé et réservation directe avec nos coachs via le formulaire ou WhatsApp.",
+          "Oui : séances à la salle, suivi personnalisé et réservation directe avec nos coachs sur WhatsApp.",
       },
       {
         question: "C’est loin depuis Tamaris ?",
@@ -64,7 +64,7 @@ export const fr: Messages = {
     kicker: "Coaching",
     title: "L’équipe et vos réservations",
     intro:
-      "Découvrez nos coachs, puis indiquez le format de séance souhaité — nous confirmons les créneaux sur WhatsApp.",
+      "Découvrez nos coachs et contactez-nous sur WhatsApp pour le coaching ou une séance d’essai — nous confirmons les créneaux avec vous.",
     quickWaLabel: "Question rapide sur WhatsApp",
     quickWaMessage:
       "Bonjour DB FIT, j’aimerais des infos sur le coaching / une séance d’essai à Dar Bouazza.",
@@ -77,7 +77,7 @@ export const fr: Messages = {
     coaching: "Coaching",
     gallery: "Galerie",
     pricing: "Tarifs",
-    testimonials: "Avis",
+    horaires: "Horaires",
     faq: "FAQ",
     contact: "Contact",
     themeToLight: "Passer en mode clair",
@@ -89,10 +89,10 @@ export const fr: Messages = {
   },
   hero: {
     kicker: "DB FIT · Dar Bouazza — Tamaris · Ansari",
-    headline: "Salle de sport à Dar Bouazza — gym & fitness près de Tamaris",
-    sub: "Rejoignez DB FIT aujourd’hui : espaces femmes, hommes et mixte, musculation, cardio et coaching sur place à Ansari. Ouvert 7j/7 — inscription ou séance d’essai par WhatsApp.",
+    headline: "Salle de sport Dar Bouazza — gym & fitness près de Tamaris",
+    sub: "Salle de sport Dar Bouazza (Ansari) : rejoignez DB FIT — espaces femmes, hommes et mixte, musculation, cardio et coaching sur place. Ouvert 7j/7 — inscription ou séance d’essai par WhatsApp.",
     heroImageAlt:
-      "DB FIT — salle de sport et gym à Dar Bouazza (Ansari), proche Tamaris",
+      "Salle de sport Dar Bouazza — DB FIT, gym à Ansari près de Tamaris",
     linkAbonnement: "Abonnement gym Dar Bouazza",
     linkFitnessTamaris: "Fitness Tamaris",
     ctaJoin: "S’inscrire maintenant",
@@ -179,44 +179,6 @@ export const fr: Messages = {
       },
     ],
   },
-  bookCoach: {
-    kicker: "Coaching",
-    title: "Réserver un coach",
-    intro:
-      "Indiquez comment vous souhaitez être coaché : nous vous répondons sur WhatsApp pour confirmer créneaux et formule.",
-    modeLabel: "Format de la séance",
-    modeHome: "À domicile",
-    modeOnline: "En ligne",
-    modeGym: "À la salle",
-    modeOther: "Autres",
-    durationLabel: "Durée souhaitée",
-    durationOptions: [
-      { id: "60", label: "1 heure" },
-      { id: "30", label: "30 minutes" },
-      { id: "45", label: "45 minutes" },
-      { id: "90", label: "1 h 30" },
-      { id: "120", label: "2 heures" },
-    ],
-    coachLabel: "Coach",
-    coachOptions: [
-      { id: "any", label: "Pas de préférence" },
-      { id: "mehdi", label: "Mehdi", subtitle: "Coach musculation" },
-      {
-        id: "raja",
-        label: "Raja Lidali",
-        subtitle: "Coach personnel · Personal trainer",
-      },
-    ],
-    detailsOptionalLabel: "Précisions (optionnel)",
-    detailsOptionalPlaceholder: "Créneau souhaité, objectif…",
-    otherDetailsLabel: "Précisez votre demande",
-    otherDetailsPlaceholder:
-      "Ex. le mercredi matin, plusieurs séances, objectif spécifique, autre lieu…",
-    formName: "Nom",
-    formPhone: "Téléphone",
-    formSubmit: "Envoyer sur WhatsApp",
-    formWaPrefix: "Bonjour DB FIT, je souhaite réserver un coach",
-  },
   pricing: {
     kicker: "Tarifs",
     title: "Formules d’abonnement",
@@ -254,30 +216,6 @@ export const fr: Messages = {
     waMessage:
       "Bonjour DB FIT, je souhaite connaître les tarifs et les formules d’abonnement.",
   },
-  testimonials: {
-    kicker: "Témoignages",
-    title: "Ils progressent à DB FIT",
-    items: [
-      {
-        quote:
-          "Enfin une salle proche de Tamaris avec des créneaux femmes respectés. L’ambiance est top.",
-        name: "Sanae",
-        role: "Membre · Dar Bouazza",
-      },
-      {
-        quote:
-          "Matériel neuf, coachs présents. J’ai gagné en force en 3 mois.",
-        name: "Youssef",
-        role: "Membre · Casablanca",
-      },
-      {
-        quote:
-          "La partie mixte pour le functional est incroyable. On se motive entre nous.",
-        name: "Imane",
-        role: "Membre · Ansari",
-      },
-    ],
-  },
   gallery: {
     kicker: "Galerie",
     title: "La salle en images",
@@ -285,6 +223,8 @@ export const fr: Messages = {
       "Quelques photos de nos espaces et de l’ambiance à DB FIT — le bandeau défile automatiquement.",
     imageAlt: "DB FIT Dar Bouazza — photo",
     closeLightbox: "Fermer l’image",
+    rotateLeft: "Pivoter l’image à gauche",
+    rotateRight: "Pivoter l’image à droite",
   },
   finalCta: {
     title: "Rejoignez DB FIT dès aujourd’hui et commencez votre transformation.",
@@ -306,7 +246,7 @@ export const fr: Messages = {
     mapTitle: "Plan — Dar Bouazza (Ansari)",
     mapOpenGoogleLabel: "Ouvrir dans Google Maps",
     napLine:
-      "Ansari, Dar Bouazza — à proximité de Tamaris · Musculation, cardio, coaching",
+      "Salle de sport Dar Bouazza — Ansari, à proximité de Tamaris · Musculation, cardio, coaching",
     formTitle: "Être rappelé",
     formName: "Prénom",
     formPhone: "Téléphone",
@@ -320,7 +260,7 @@ export const fr: Messages = {
       "Le message a été envoyé par email, mais l’ouverture de WhatsApp a été bloquée. Autorisez les pop-ups pour ce site.",
   },
   footer: {
-    line: "DB FIT — salle de sport à Ansari, Dar Bouazza.",
+    line: "DB FIT — salle de sport Dar Bouazza (Ansari, près de Tamaris).",
     rights: "Tous droits réservés.",
     createdByPrefix: "Site réalisé par",
     backHome: "← Retour à l’accueil",
@@ -339,16 +279,23 @@ export const fr: Messages = {
     heading: "Créneaux femmes, hommes & mixte",
     intro:
       "Chez DB FIT, votre confort et votre intimité sont notre priorité. Des créneaux dédiés aux femmes, aux hommes ainsi que des horaires mixtes sont mis en place pour que chacun puisse s’entraîner à l’aise et en toute confiance.",
-    imageAlt:
-      "Affiche horaires DB FIT : créneaux femmes, hommes et mixte à Dar Bouazza",
     tablistAria: "Période",
-    weekTab: "Lundi → Samedi",
+    weekTab: "Du lundi au samedi",
     sundayTab: "Dimanche",
-    weekDescription: "Créneaux femmes, hommes et mixte",
-    sundayDescription: "Créneaux spécifiques",
+    weekDescription: "",
+    sundayDescription: "",
     spaceWomen: "Femmes uniquement",
     spaceMen: "Hommes uniquement",
     spaceMixed: "Mixte",
+    weekSlots: {
+      women: ["9H - 11H ET 18H - 20H"],
+      mixed: ["13H - 18H"],
+      men: ["11H - 13H ET 20H - 23H"],
+    },
+    sundaySlots: {
+      men: ["10H - 12H30"],
+      women: ["12H30 - 15H"],
+    },
   },
   siloPages: siloPagesFr,
 };

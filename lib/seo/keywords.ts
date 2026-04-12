@@ -2,8 +2,9 @@ import type { Locale } from "@/lib/i18n/config";
 
 /** Clusters : Dar Bouazza · Tamaris · Ansari (intention locale + transactionnelle). */
 const FR = [
-  "gym dar bouazza",
+  "Salle de sport Dar Bouazza",
   "salle de sport dar bouazza",
+  "gym dar bouazza",
   "fitness dar bouazza",
   "fitness dar bouazza tamaris",
   "gym tamaris casablanca",
@@ -24,6 +25,7 @@ const FR = [
 ];
 
 const EN = [
+  "Dar Bouazza sports club",
   "gym dar bouazza",
   "fitness dar bouazza",
   "gym tamaris casablanca",

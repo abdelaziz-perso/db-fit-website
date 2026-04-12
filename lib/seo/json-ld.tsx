@@ -11,21 +11,21 @@ function descriptions(locale: string): { business: string; org: string } {
   if (locale === "fr") {
     return {
       business:
-        "DB FIT — salle de sport et gym à Dar Bouazza (Ansari), proche Tamaris : musculation, cardio, coaching sur place. Ouvert 7j/7.",
-      org: "DB FIT — salle de sport, club de fitness et centre de coaching à Ansari, Dar Bouazza (Grand Casablanca).",
+        "Salle de sport Dar Bouazza — DB FIT à Ansari, proche Tamaris : musculation, cardio, coaching sur place. Ouvert 7j/7.",
+      org: "Salle de sport Dar Bouazza (Ansari) — DB FIT, club de fitness et coaching, Grand Casablanca.",
     };
   }
   if (locale === "ar") {
     return {
       business:
-        "DB FIT — صالة رياضية في دار بوعزة (أنصاري) قرب تماريس: حديد، كارديو، تدريب. مفتوح كل يوم.",
-      org: "DB FIT — منشأة رياضية ونادي لياقة في أنصاري، دار بوعزة.",
+        "صالة رياضية دار بوعزة — DB FIT في أنصاري، قرب تماريس: حديد، كارديو، تدريب. مفتوح كل يوم.",
+      org: "صالة رياضية دار بوعزة (أنصاري) — DB FIT، نادي لياقة وتدريب.",
     };
   }
   return {
     business:
-      "DB FIT — gym & fitness in Dar Bouazza (Ansari), near Tamaris: strength, cardio, on-site coaching. Open 7 days.",
-    org: "DB FIT — fitness club and coaching gym in Ansari, Dar Bouazza, Morocco.",
+      "Sports club in Dar Bouazza — DB FIT at Ansari, near Tamaris: strength, cardio, on-site coaching. Open 7 days.",
+    org: "Dar Bouazza sports club (Ansari) — DB FIT, fitness and coaching, Morocco.",
   };
 }
 
@@ -85,21 +85,30 @@ export function SiteGraphJsonLd({ locale }: Props) {
 
   const publicBusinessName =
     loc === "fr"
-      ? "DB FIT – Salle de sport Dar Bouazza Tamaris"
+      ? "Salle de sport Dar Bouazza — DB FIT (Tamaris · Ansari)"
       : loc === "ar"
         ? "DB FIT — صالة رياضية دار بوعزة · تماريس"
-        : "DB FIT — Gym Dar Bouazza & Tamaris";
+        : "DB FIT — Sports club Dar Bouazza (Tamaris · Ansari)";
 
   const localBusiness = {
     "@type": ["Gym", "LocalBusiness", "SportsActivityLocation", "HealthClub"] as const,
     "@id": bizId,
     name: publicBusinessName,
-    alternateName: [
-      siteConfig.brand,
-      "DB FIT Dar Bouazza",
-      "DB FIT Tamaris",
-      "DB FIT Ansari",
-    ],
+    alternateName:
+      loc === "fr"
+        ? [
+            siteConfig.brand,
+            "Salle de sport Dar Bouazza",
+            "DB FIT Dar Bouazza",
+            "DB FIT Tamaris",
+            "DB FIT Ansari",
+          ]
+        : [
+            siteConfig.brand,
+            "DB FIT Dar Bouazza",
+            "DB FIT Tamaris",
+            "DB FIT Ansari",
+          ],
     parentOrganization: { "@id": orgId },
     address: { ...postalAddress },
     hasMap: mapsUrl,
@@ -121,7 +130,11 @@ export function SiteGraphJsonLd({ locale }: Props) {
     sameAs,
     priceRange: "$$",
     keywords:
-      "gym dar bouazza, salle de sport dar bouazza, fitness tamaris, coaching dar bouazza",
+      loc === "fr"
+        ? "Salle de sport Dar Bouazza, gym dar bouazza, salle de sport dar bouazza, fitness tamaris, coaching dar bouazza, Ansari"
+        : loc === "ar"
+          ? "صالة رياضية دار بوعزة, جيم دار بوعزة, تماريس, أنصاري, تدريب, لياقة"
+          : "Dar Bouazza sports club, gym dar bouazza, fitness tamaris, coaching dar bouazza, Ansari",
     amenityFeature: [
       "Musculation",
       "Cardio",
@@ -130,12 +143,30 @@ export function SiteGraphJsonLd({ locale }: Props) {
       "Espace hommes",
       "Espace mixte",
     ],
-    knowsAbout: [
-      "Fitness",
-      "Musculation",
-      "Cardio training",
-      "Coaching personnel",
-    ],
+    knowsAbout:
+      loc === "fr"
+        ? [
+            "Salle de sport Dar Bouazza",
+            "Fitness",
+            "Musculation",
+            "Cardio training",
+            "Coaching personnel",
+          ]
+        : loc === "ar"
+          ? [
+              "صالة رياضية دار بوعزة",
+              "لياقة بدنية",
+              "حديد وبناء الأجسام",
+              "كارديو",
+              "تدريب شخصي",
+            ]
+          : [
+              "Dar Bouazza sports club",
+              "Fitness",
+              "Strength training",
+              "Cardio",
+              "Personal coaching",
+            ],
   };
 
   const payload = {

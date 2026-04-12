@@ -2,12 +2,12 @@ import { Activities } from "@/components/home/Activities";
 import { Coaching } from "@/components/home/Coaching";
 import { Contact } from "@/components/home/Contact";
 import { Gallery } from "@/components/home/Gallery";
+import { HorairesSection } from "@/components/horaires-section";
 import { Faq } from "@/components/home/Faq";
 import { Features } from "@/components/home/Features";
 import { Hero } from "@/components/home/Hero";
 import { Pricing } from "@/components/home/Pricing";
 import { Spaces } from "@/components/home/Spaces";
-import { Testimonials } from "@/components/home/Testimonials";
 import { SiteHeader } from "@/components/site-header";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { StickyWhatsapp } from "@/components/sticky-whatsapp";
@@ -21,6 +21,7 @@ import {
   telHref,
   whatsappHref,
 } from "@/lib/site/config";
+import { getLocalizedSchedules } from "@/lib/data/horaires";
 import Link from "next/link";
 
 type Props = { locale: Locale };
@@ -33,6 +34,7 @@ export async function LocaleHomePage({ locale }: Props) {
   const waCoachingQuick = whatsappHref(m.coachingLead.quickWaMessage);
   const waSticky = whatsappDirectHref();
   const phoneHref = telHref();
+  const schedules = getLocalizedSchedules(m.horaires);
 
   return (
     <div className="flex min-h-full min-w-0 flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
@@ -50,18 +52,11 @@ export async function LocaleHomePage({ locale }: Props) {
         <Activities activities={m.activities} />
         <Coaching
           coaches={m.coachesSection}
-          bookCoach={m.bookCoach}
           lead={m.coachingLead}
           quickWaHref={waCoachingQuick}
-          mailFeedback={{
-            formSending: m.contact.formSending,
-            formSuccess: m.contact.formSuccess,
-            formError: m.contact.formError,
-            formWaPopupBlocked: m.contact.formWaPopupBlocked,
-          }}
         />
         <Pricing pricing={m.pricing} waHref={waPricing} />
-        <Testimonials testimonials={m.testimonials} />
+        <HorairesSection horaires={m.horaires} schedules={schedules} />
         <Gallery gallery={m.gallery} />
         <Faq locale={locale} faq={m.faq} />
         <Contact
