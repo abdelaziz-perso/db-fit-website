@@ -81,6 +81,7 @@ export function Gallery({ gallery }: Props) {
         className={`${slideClassName} cursor-pointer border-0 p-0 transition-opacity hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand`}
         tabIndex={decorative ? -1 : 0}
       >
+        {/* WebKit (Safari iOS) : lazy + overflow/transform → IO ne charge souvent pas les imgs */}
         <Image
           src={src}
           alt={
@@ -91,7 +92,7 @@ export function Gallery({ gallery }: Props) {
           fill
           className="object-cover"
           sizes="(max-width: 640px) 60vw, 320px"
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
       </button>
